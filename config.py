@@ -5,15 +5,28 @@ Loads settings from .env file and provides typed access and validation.
 
 import os
 from pathlib import Path
+import shutil
+
 # Base directory paths
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = BASE_DIR / "templates"
-STORAGE_DIR = BASE_DIR / "storage"
-OUTPUT_DIR = STORAGE_DIR / "output"
 ASSETS_DIR = BASE_DIR / "assets"
 
-# Ensure output directory exists
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# Vercel Serverless read-only filesystem compatibility
+if os.environ.get("VERCEL"):
+    STORAGE_DIR = Path("/tmp/storage")
+    OUTPUT_DIR = STORAGE_DIR / "output"
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    src_storage = BASE_DIR / "storage"
+    if src_storage.exists():
+        for json_file in src_storage.glob("*.json"):
+            dst_file = STORAGE_DIR / json_file.name
+            if not dst_file.exists():
+                shutil.copy2(json_file, dst_file)
+else:
+    STORAGE_DIR = BASE_DIR / "storage"
+    OUTPUT_DIR = STORAGE_DIR / "output"
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 try:
     from dotenv import load_dotenv
