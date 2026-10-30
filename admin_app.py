@@ -90,6 +90,8 @@ def save_history(record: dict, account: str = "phono_print"):
 
 
 @app.route("/")
+@app.route("/api/index")
+@app.route("/api/index.py")
 def index():
     """Serves the main Multi-Account Admin Dashboard."""
     default_acc = request.args.get("account", "phono_print")
