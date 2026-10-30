@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Brand AI Social Media Hub | Phono Print & Cultivare</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              dark: '#0B0F19',
+              card: '#141D2D',
+              border: '#223048',
+              hover: '#1B273D'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0A0E17;
+      color: #E2E8F0;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0A0E17;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #223048;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #3B4D6E;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans text-slate-200">
+
+  <!-- TOP MULTI-BRAND NAVBAR -->
+  <header class="border-b border-brand-border bg-[#0D1424]/95 backdrop-blur sticky top-0 z-40 px-6 py-3.5">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Brand Logo & Identity -->
+      <div class="flex items-center gap-3.5 w-full md:w-auto">
+        <div id="nav-logo-box" class="bg-white p-1 rounded-xl shadow-md flex items-center justify-center overflow-hidden h-10 w-10 flex-shrink-0">
+          <img id="nav-logo-img" src="data:image/png;base64,{{ logo_base64 }}" alt="Logo" class="max-h-8 max-w-8 object-contain">
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 id="nav-brand-name" class="text-lg font-black tracking-wide text-white">PHONO PRINT</h1>
+            <span id="nav-badge" class="bg-red-950/80 text-red-400 border border-red-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">PRINTING & WEDDING</span>
+          </div>
+          <p class="text-xs text-slate-400 font-mono flex items-center gap-2">
+            <span id="nav-handle" class="text-amber-400 font-semibold">@phono.print_tegal</span>
+            <span>•</span>
+            <span class="text-emerald-400 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> AI Engine Live</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Account Switcher & API Status -->
+      <div class="flex items-center flex-wrap gap-3 w-full md:w-auto justify-between md:justify-end">
+        
+        <!-- ACCOUNT SELECTOR DROPDOWN -->
+        <div class="flex items-center gap-2 bg-[#0B0F19] border border-brand-border px-3 py-1.5 rounded-xl shadow-inner">
+          <span class="text-xs text-slate-400 font-semibold">Akun Aktif:</span>
+          <select id="account-select" onchange="switchAccount(this.value)" class="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer">
+            <option value="phono_print" selected>🖨️ Phono Print Tegal (@phono.print_tegal)</option>
+            <option value="cultivare">🌿 Cultivare Collective (@cultivaree_)</option>
+          </select>
+        </div>
+
+        <div class="hidden lg:flex items-center gap-2 text-xs font-mono">
+          <div class="bg-brand-card border border-brand-border px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="text-slate-400">Gemini:</span>
+            <span class="text-emerald-300 font-bold">Ready</span>
+          </div>
+          <div class="bg-brand-card border border-brand-border px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="text-slate-400">CDN:</span>
+            <span class="text-emerald-300 font-bold">Cloudinary</span>
+          </div>
+        </div>
+
+        <a id="nav-ig-link" href="https://www.instagram.com/phono.print_tegal/" target="_blank" class="bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-700 hover:to-amber-700 text-white font-bold px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 text-xs shadow-md">
+          <i data-feather="instagram" class="w-3.5 h-3.5"></i>
+          <span>Buka Akun IG</span>
+        </a>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 flex-1 flex flex-col gap-6">
+
+    <!-- HERO NICHE BANNER -->
+    <div id="hero-banner" class="bg-gradient-to-r from-red-950/40 via-brand-card to-brand-card border border-brand-border rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div id="hero-icon-box" class="w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/30 flex items-center justify-center text-red-400 flex-shrink-0">
+          <i data-feather="printer" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h2 id="hero-title" class="text-base font-extrabold text-white">Percetakan Industri & Undangan Digital Kreatif</h2>
+          <p id="hero-desc" class="text-xs text-slate-300 mt-0.5 leading-relaxed">Pilar konten berfokus pada edukasi teknis cetak (CMYK, 300 DPI, Finishing Mewah) & promo undangan website/video kekinian.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <span id="hero-lang-pill" class="bg-slate-800 text-slate-300 text-xs font-mono font-bold px-3 py-1.5 rounded-lg border border-slate-700">Bahasa: Indonesia 🇮🇩</span>
+      </div>
+    </div>
+
+    <!-- METRICS SUMMARY CARDS -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-4 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+          <i data-feather="check-circle" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Postingan Terbit</p>
+          <p id="stat-published" class="text-2xl font-black text-white">--</p>
+        </div>
+      </div>
+
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-4 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+          <i data-feather="calendar" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Jadwal Kalender</p>
+          <p id="stat-scheduled" class="text-2xl font-black text-white">--</p>
+        </div>
+      </div>
+
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-4 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0">
+            <i data-feather="clock" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400 font-medium">Jam Posting</p>
+            <p id="stat-time" class="text-2xl font-black text-white">09:00 <span class="text-xs font-normal text-slate-400 font-mono">WIB</span></p>
+          </div>
+        </div>
+        <button onclick="openChangeTimeModal()" class="text-[11px] font-bold text-blue-300 hover:text-white bg-blue-900/30 hover:bg-blue-800/50 border border-blue-700/60 px-2.5 py-1.5 rounded-xl transition flex items-center gap-1 shadow-sm" title="Ubah Jam Tayang Rutin">
+          <i data-feather="edit-3" class="w-3 h-3 text-blue-400"></i>
+          <span>Ubah Jam</span>
+        </button>
+      </div>
+
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-4 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+          <i data-feather="layers" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Pilar Konten</p>
+          <p id="stat-pillars-count" class="text-2xl font-black text-white">-- <span class="text-xs font-normal text-slate-400">Kategori</span></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB NAVIGATION BAR -->
+    <div class="flex border-b border-brand-border gap-2 overflow-x-auto pb-1 text-sm font-semibold">
+      <button onclick="switchTab('calendar')" id="tab-btn-calendar" class="tab-button active px-4 py-2.5 rounded-xl flex items-center gap-2 transition text-white bg-brand-hover border border-brand-border">
+        <i data-feather="calendar" class="w-4 h-4 text-amber-400"></i>
+        <span>Kalender Jadwal Konten</span>
+      </button>
+      <button onclick="switchTab('publish')" id="tab-btn-publish" class="tab-button px-4 py-2.5 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-brand-hover">
+        <i data-feather="send" class="w-4 h-4 text-emerald-400"></i>
+        <span>Publikasi & Preview Instan</span>
+      </button>
+      <button onclick="switchTab('history')" id="tab-btn-history" class="tab-button px-4 py-2.5 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-brand-hover">
+        <i data-feather="archive" class="w-4 h-4 text-blue-400"></i>
+        <span>Riwayat Postingan Live</span>
+      </button>
+      <button onclick="switchTab('pillars')" id="tab-btn-pillars" class="tab-button px-4 py-2.5 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-brand-hover">
+        <i data-feather="book-open" class="w-4 h-4 text-purple-400"></i>
+        <span>Pilar & Bank Topik</span>
+      </button>
+      <button onclick="switchTab('settings')" id="tab-btn-settings" class="tab-button px-4 py-2.5 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-brand-hover">
+        <i data-feather="settings" class="w-4 h-4 text-red-400"></i>
+        <span>Setup Akun & Kredensial Meta</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: CALENDAR VIEW -->
+    <div id="tab-calendar" class="tab-pane flex flex-col gap-6">
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-feather="calendar" class="w-5 h-5 text-amber-400"></i>
+            <span id="calendar-title-label">Content Plan Calendar (30 Hari ke Depan)</span>
+          </h2>
+          <p id="calendar-subtitle-label" class="text-xs text-slate-400 mt-0.5">Rotasi otomatis pilar konten harian untuk akun yang sedang aktif.</p>
+        </div>
+
+        <div class="flex items-center flex-wrap gap-2.5 w-full md:w-auto">
+          <button onclick="openChangeTimeModal()" class="bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-blue-500/40 transition flex items-center gap-1.5 shadow-sm">
+            <i data-feather="clock" class="w-4 h-4 text-blue-400"></i>
+            <span>Ubah Jam Tayang Rutin</span>
+          </button>
+          <button onclick="openAddModal()" class="bg-brand-hover hover:bg-brand-border text-white text-xs font-bold px-3.5 py-2.5 rounded-xl border border-brand-border transition flex items-center gap-1.5 shadow-sm">
+            <i data-feather="plus" class="w-4 h-4 text-emerald-400"></i>
+            <span>Tambah Jadwal Manual</span>
+          </button>
+          <button onclick="reset30DayPlan()" class="bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-amber-500/40 transition flex items-center gap-1.5">
+            <i data-feather="refresh-cw" class="w-4 h-4 text-amber-400"></i>
+            <span>Generate Ulang 30 Hari</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="calendar-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="col-span-full py-12 text-center text-slate-500 font-mono text-sm">
+          Memuat jadwal kalender...
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: INSTANT PUBLISH & PREVIEW -->
+    <div id="tab-publish" class="tab-pane hidden flex flex-col gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Form Generator (Left) -->
+        <div class="lg:col-span-5 bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <i data-feather="send" class="w-5 h-5 text-emerald-400"></i>
+              <span>Buat Postingan Baru</span>
+            </h2>
+            <p id="publish-desc" class="text-xs text-slate-400 mt-1">AI akan menyusun caption profesional & sistem akan merender visual banner beresolusi tajam.</p>
+          </div>
+
+          <div class="flex flex-col gap-3.5">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Pilih Kategori Konten</label>
+              <select id="gen-category" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <!-- Dynamically populated per account -->
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Topik Spesifik (Opsional)</label>
+              <input type="text" id="gen-topic" placeholder="Biarkan kosong agar AI memilih topik terbaik..." class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Rasio Banner Gambar</label>
+              <div class="grid grid-cols-2 gap-3">
+                <label class="border border-brand-border rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-[#0A0E17] hover:border-emerald-500 transition">
+                  <input type="radio" name="aspect-ratio" value="4:5" checked class="text-emerald-500 focus:ring-0">
+                  <span class="text-xs font-bold text-white">4:5 Portrait (1080x1350)</span>
+                </label>
+                <label class="border border-brand-border rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-[#0A0E17] hover:border-emerald-500 transition">
+                  <input type="radio" name="aspect-ratio" value="1:1" class="text-emerald-500 focus:ring-0">
+                  <span class="text-xs font-bold text-white">1:1 Square (1080x1080)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="pt-2 flex flex-col gap-2">
+              <button onclick="triggerPreview()" id="btn-preview" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl border border-slate-600 transition flex items-center justify-center gap-2 shadow-md">
+                <i data-feather="eye" class="w-4 h-4 text-amber-400"></i>
+                <span>Lihat Preview Banner & Caption</span>
+              </button>
+              
+              <button onclick="triggerPublishDirect()" id="btn-publish-direct" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+                <i data-feather="upload-cloud" class="w-4 h-4"></i>
+                <span id="btn-publish-direct-label">Terbitkan Langsung ke Instagram Feed</span>
+              </button>
+            </div>
+
+            <div id="gen-loader" class="hidden flex items-center justify-center gap-3 py-3 text-xs font-mono text-amber-300 bg-amber-950/30 border border-amber-800/40 rounded-xl">
+              <span class="w-4 h-4 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></span>
+              <span id="gen-loader-text">Memproses AI & render visual...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Preview Stage (Right) -->
+        <div class="lg:col-span-7 bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col gap-4">
+          <div class="flex items-center justify-between border-b border-brand-border pb-3">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <i data-feather="layout" class="w-4 h-4 text-amber-400"></i>
+              <span>Live Visual & Caption Preview</span>
+            </h3>
+            <span id="preview-badge" class="text-[11px] font-mono bg-slate-800 text-slate-400 px-2.5 py-0.5 rounded-md">Belum Ada Preview</span>
+          </div>
+
+          <div id="preview-empty" class="py-20 text-center flex flex-col items-center justify-center text-slate-500 gap-3">
+            <i data-feather="image" class="w-12 h-12 stroke-1 text-slate-600"></i>
+            <p class="text-sm">Klik tombol <strong>"Lihat Preview"</strong> untuk menghasilkan banner dan caption sebelum dipublikasikan.</p>
+          </div>
+
+          <div id="preview-content" class="hidden grid grid-cols-1 md:grid-cols-12 gap-5">
+            <!-- Rendered Banner Image -->
+            <div class="md:col-span-5 flex flex-col items-center gap-2">
+              <div class="rounded-xl overflow-hidden border border-brand-border shadow-2xl bg-black">
+                <img id="preview-image" src="" alt="Banner Preview" class="w-full h-auto object-cover">
+              </div>
+              <span id="preview-ratio-label" class="text-[11px] font-mono text-slate-400">Rasio: 4:5 (1080x1350)</span>
+            </div>
+
+            <!-- Caption & Publishing Action -->
+            <div class="md:col-span-7 flex flex-col justify-between gap-3">
+              <div>
+                <p class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1" id="preview-category-text">Kategori</p>
+                <h4 class="text-base font-extrabold text-white mb-2" id="preview-headline-text">Judul Visual</h4>
+                <div class="bg-[#0A0E17] border border-brand-border rounded-xl p-3.5 text-xs text-slate-300 leading-relaxed font-mono whitespace-pre-wrap max-h-72 overflow-y-auto custom-scrollbar" id="preview-caption-text">
+                  Caption...
+                </div>
+              </div>
+
+              <button onclick="publishFromPreview()" id="btn-publish-preview" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+                <i data-feather="send" class="w-4 h-4"></i>
+                <span>Setuju & Terbitkan Gambar Ini ke Instagram</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 3: PUBLICATION HISTORY -->
+    <div id="tab-history" class="tab-pane hidden flex flex-col gap-6">
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-5 flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-feather="archive" class="w-5 h-5 text-blue-400"></i>
+            <span id="history-title-label">Riwayat Publikasi Feed Instagram</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">Semua postingan yang berhasil terbit live melalui Meta Graph API v19.0.</p>
+        </div>
+        <button onclick="loadHistory()" class="bg-brand-hover hover:bg-brand-border text-white text-xs font-bold px-3 py-2 rounded-xl border border-brand-border transition flex items-center gap-1.5">
+          <i data-feather="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Refresh</span>
+        </button>
+      </div>
+
+      <div id="history-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </div>
+
+    <!-- TAB 4: PILLARS & TOPICS -->
+    <div id="tab-pillars" class="tab-pane hidden flex flex-col gap-6">
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-5">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <i data-feather="book-open" class="w-5 h-5 text-purple-400"></i>
+          <span id="pillars-title-label">Pilar Konten & Bank Ide Topik</span>
+        </h2>
+        <p id="pillars-subtitle-label" class="text-xs text-slate-400 mt-0.5">Koleksi kurasi topik yang diprogramkan untuk konten otomatis.</p>
+      </div>
+
+      <div id="pillars-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </div>
+
+    <!-- TAB 5: SETTINGS & GUIDELINES -->
+    <div id="tab-settings" class="tab-pane hidden flex flex-col gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Active Account Credentials Card -->
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col gap-4">
+          <h3 class="text-base font-bold text-white flex items-center gap-2 border-b border-brand-border pb-3">
+            <i data-feather="shield" class="w-4 h-4 text-emerald-400"></i>
+            <span>Detail Konfigurasi Akun Aktif</span>
+          </h3>
+
+          <div class="flex flex-col gap-3 text-xs">
+            <div class="flex justify-between py-1.5 border-b border-brand-border/50">
+              <span class="text-slate-400">Brand Name:</span>
+              <span class="font-bold text-white" id="cfg-name">--</span>
+            </div>
+            <div class="flex justify-between py-1.5 border-b border-brand-border/50">
+              <span class="text-slate-400">Instagram Handle:</span>
+              <span class="font-bold text-emerald-400" id="cfg-handle">--</span>
+            </div>
+            <div class="flex justify-between py-1.5 border-b border-brand-border/50">
+              <span class="text-slate-400">Instagram Account ID:</span>
+              <span class="font-mono text-slate-300" id="cfg-acc-id">--</span>
+            </div>
+            <div class="flex justify-between py-1.5 border-b border-brand-border/50">
+              <span class="text-slate-400">Niche Fokus:</span>
+              <span class="font-medium text-slate-300" id="cfg-niche">--</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50">
+              <span class="text-slate-400">Jam Rutin Harian:</span>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-amber-400" id="cfg-time">--</span>
+                <button onclick="openChangeTimeModal()" class="text-[10px] font-bold text-blue-300 hover:text-white bg-blue-900/40 border border-blue-700/60 px-2 py-0.5 rounded transition">Ubah</button>
+              </div>
+            </div>
+            <div class="flex justify-between py-1.5 border-b border-brand-border/50">
+              <span class="text-slate-400">Rasio Gambar Default:</span>
+              <span class="font-bold text-white" id="cfg-ratio">4:5 (1080x1350)</span>
+            </div>
+            <div class="flex justify-between py-1.5">
+              <span class="text-slate-400">Status Koneksi Meta:</span>
+              <span class="font-bold text-emerald-400" id="cfg-meta-status">Terhubung</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meta Credentials Update Form -->
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col gap-4">
+          <h3 class="text-base font-bold text-white flex items-center gap-2 border-b border-brand-border pb-3">
+            <i data-feather="key" class="w-4 h-4 text-emerald-400"></i>
+            <span>Kelola Token Akses Meta Instagram</span>
+          </h3>
+          <p class="text-xs text-slate-300">
+            Perbarui Token Akses Meta atau Instagram Business ID secara langsung tanpa perlu mengedit file .env secara manual.
+          </p>
+          <div class="flex flex-col gap-3 text-xs">
+            <div>
+              <label class="block font-bold text-slate-300 mb-1">Instagram Business Account ID</label>
+              <input type="text" id="input-acc-id" placeholder="178414..." class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white font-mono">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-300 mb-1">Meta Access Token (Never-Expiring Page Token / Long-Lived Token)</label>
+              <textarea id="input-acc-token" rows="3" placeholder="EAAP..." class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white font-mono text-[11px]"></textarea>
+            </div>
+            <div class="flex justify-end pt-2">
+              <button onclick="saveCredentials()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition flex items-center gap-1.5 shadow-md">
+                <i data-feather="save" class="w-3.5 h-3.5"></i>
+                <span>Simpan Kredensial Meta</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Setup Guide for Cultivare Account -->
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col gap-4">
+          <h3 class="text-base font-bold text-white flex items-center gap-2 border-b border-brand-border pb-3">
+            <i data-feather="key" class="w-4 h-4 text-amber-400"></i>
+            <span>Langkah Menghubungkan Akun @cultivaree_</span>
+          </h3>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Untuk memublikasikan langsung ke akun <strong>@cultivaree_</strong> lewat Meta Graph API, pastikan langkah ini sudah selesai:
+          </p>
+
+          <ol class="flex flex-col gap-2.5 text-xs text-slate-300 list-decimal list-inside leading-relaxed">
+            <li><strong>Ubah ke Akun Profesional</strong>: Pastikan akun Instagram <code>@cultivaree_</code> sudah bertipe <em>Bisnis</em> atau <em>Kreator</em>.</li>
+            <li><strong>Hubungkan ke Halaman Facebook</strong>: Buka Edit Profil di Instagram &gt; Page &gt; Hubungkan ke Halaman Facebook (misal: <em>Cultivare Collective</em>).</li>
+            <li><strong>Dapatkan ID Instagram Cultivare</strong>: Di Meta Graph API Explorer, pilih Halaman Cultivare &gt; lakukan GET <code>me?fields=instagram_business_account</code>.</li>
+            <li><strong>Simpan di File .env</strong>:
+              <div class="bg-[#0A0E17] p-2.5 rounded-lg font-mono text-[11px] text-amber-300 mt-1 border border-brand-border">
+                CULTIVARE_INSTAGRAM_ACCOUNT_ID=ID_Akun_Instagram_Cultivare<br>
+                CULTIVARE_INSTAGRAM_ACCESS_TOKEN=Token_Akses_Meta_Halaman_Cultivare
+              </div>
+            </li>
+          </ol>
+
+          <div class="text-[11px] text-emerald-400 bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-800/60 flex items-center gap-2">
+            <i data-feather="check-circle" class="w-4 h-4 flex-shrink-0"></i>
+            <span>Jika Anda menggunakan 1 Akun Meta Developer yang sama, Anda tinggal menambahkan Halaman Cultivare ke Facebook Login for Business!</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ADD MANUAL SCHEDULE MODAL -->
+  <div id="add-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-2xl max-w-md w-full p-6 flex flex-col gap-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-brand-border pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i data-feather="calendar" class="w-4 h-4 text-amber-400"></i>
+          <span>Tambah Jadwal Konten</span>
+        </h3>
+        <button onclick="closeAddModal()" class="text-slate-400 hover:text-white">
+          <i data-feather="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Tanggal</label>
+          <input type="date" id="modal-date" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Jam</label>
+          <input type="time" id="modal-time" value="09:00" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Kategori</label>
+          <select id="modal-category" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Topik Rencana</label>
+          <textarea id="modal-topic" rows="2" placeholder="Tuliskan ide atau judul topik..." class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-brand-border">
+        <button onclick="closeAddModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-bold">Batal</button>
+        <button onclick="saveManualSchedule()" class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 text-xs font-bold">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANGE BROADCAST TIME MODAL -->
+  <div id="time-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-2xl max-w-md w-full p-6 flex flex-col gap-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-brand-border pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i data-feather="clock" class="w-4 h-4 text-blue-400"></i>
+          <span>Ubah Jam Tayang Rutin Harian</span>
+        </h3>
+        <button onclick="closeChangeTimeModal()" class="text-slate-400 hover:text-white">
+          <i data-feather="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-3.5 text-xs">
+        <p class="text-slate-300 leading-relaxed">
+          Tentukan jam tayang posting otomatis harian untuk akun <strong id="time-modal-account-name" class="text-white">--</strong>. Jam ini akan disimpan di sistem dan scheduler.
+        </p>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Jam Tayang (WIB)</label>
+          <input type="time" id="global-schedule-time" value="09:00" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3.5 py-2.5 text-xl font-mono text-white text-center font-bold tracking-wider">
+        </div>
+
+        <div class="bg-[#0A0E17] p-3 rounded-xl border border-brand-border flex items-start gap-2.5">
+          <input type="checkbox" id="check-apply-calendar" checked class="mt-0.5 rounded accent-blue-500 w-4 h-4 cursor-pointer">
+          <label for="check-apply-calendar" class="text-slate-300 cursor-pointer text-xs">
+            <strong>Terapkan ke Seluruh Jadwal Belum Terbit</strong>
+            <span class="block text-slate-400 text-[11px] mt-0.5">Otomatis sinkronkan jam tayang di semua postingan kalender 30 hari yang berstatus "Terjadwal".</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-brand-border">
+        <button onclick="closeChangeTimeModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-bold">Batal</button>
+        <button onclick="saveGlobalScheduleTime()" class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 text-xs font-bold flex items-center gap-1.5 shadow-md">
+          <i data-feather="check" class="w-3.5 h-3.5"></i>
+          <span>Simpan Jam Baru</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT INDIVIDUAL SCHEDULE ITEM MODAL -->
+  <div id="edit-schedule-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-2xl max-w-md w-full p-6 flex flex-col gap-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-brand-border pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i data-feather="edit-2" class="w-4 h-4 text-amber-400"></i>
+          <span>Edit Jadwal Postingan</span>
+        </h3>
+        <button onclick="closeEditScheduleModal()" class="text-slate-400 hover:text-white">
+          <i data-feather="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="edit-modal-id">
+
+      <div class="flex flex-col gap-3 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-300 mb-1">Tanggal Post</label>
+            <input type="date" id="edit-modal-date" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 mb-1">Jam Tayang (WIB)</label>
+            <input type="time" id="edit-modal-time" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white font-mono font-bold">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-300 mb-1">Kategori Pilar</label>
+            <select id="edit-modal-category" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white">
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 mb-1">Rasio Banner</label>
+            <select id="edit-modal-ratio" class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white font-mono">
+              <option value="4:5">4:5 (1080x1350)</option>
+              <option value="1:1">1:1 (1080x1080)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Topik Rencana Konten</label>
+          <textarea id="edit-modal-topic" rows="3" placeholder="Tuliskan topik / ide konten..." class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-brand-border">
+        <button onclick="closeEditScheduleModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-bold">Batal</button>
+        <button onclick="saveEditScheduleItem()" class="px-4 py-2 rounded-xl bg-amber-600 text-white hover:bg-amber-700 text-xs font-bold flex items-center gap-1.5 shadow-md">
+          <i data-feather="check" class="w-3.5 h-3.5"></i>
+          <span>Perbarui Jadwal</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST DETAIL & PREVIEW MODAL -->
+  <div id="detail-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-brand-border flex items-center justify-between bg-[#0B0F19]/90">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0">
+            <i data-feather="file-text" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span>Detail Jadwal Postingan</span>
+              <span id="detail-badge-status" class="text-[10px] font-bold px-2 py-0.5 rounded-full">--</span>
+            </h3>
+            <p id="detail-meta-text" class="text-xs text-slate-400 font-mono mt-0.5">--</p>
+          </div>
+        </div>
+        <button onclick="closeDetailModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-brand-hover transition">
+          <i data-feather="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto custom-scrollbar flex-1 flex flex-col gap-5">
+        
+        <!-- Top Overview Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="bg-[#0A0E17] p-3 rounded-xl border border-brand-border">
+            <span class="text-slate-400 block mb-0.5">Kategori Pilar:</span>
+            <span id="detail-category" class="font-bold text-amber-400">--</span>
+          </div>
+          <div class="bg-[#0A0E17] p-3 rounded-xl border border-brand-border">
+            <span class="text-slate-400 block mb-0.5">Jadwal Tayang:</span>
+            <span id="detail-time" class="font-bold text-white font-mono">--</span>
+          </div>
+          <div class="bg-[#0A0E17] p-3 rounded-xl border border-brand-border">
+            <span class="text-slate-400 block mb-0.5">Rasio Desain:</span>
+            <span id="detail-ratio" class="font-bold text-emerald-400 font-mono">--</span>
+          </div>
+        </div>
+
+        <!-- Main Topic / Headline -->
+        <div class="bg-[#0A0E17] p-4 rounded-xl border border-brand-border">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Topik Rencana / Headline:</span>
+          <h2 id="detail-topic" class="text-base font-black text-white leading-relaxed">--</h2>
+          <p id="detail-subtext" class="text-xs text-slate-400 mt-1 hidden"></p>
+        </div>
+
+        <!-- Two-Column Section: Visual Banner & Caption -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+          
+          <!-- Visual Banner Column (Left: 5 cols) -->
+          <div class="md:col-span-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <i data-feather="image" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Visual Banner</span>
+              </span>
+              <span id="detail-img-status" class="text-[10px] font-mono text-slate-500">Preview</span>
+            </div>
+
+            <!-- Banner Container -->
+            <div class="relative rounded-xl overflow-hidden bg-black border border-brand-border aspect-[4/5] flex items-center justify-center group shadow-lg">
+              <img id="detail-banner-img" src="" alt="Banner Preview" class="w-full h-full object-cover hidden">
+              
+              <!-- Empty Placeholder -->
+              <div id="detail-banner-placeholder" class="p-6 text-center flex flex-col items-center justify-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-500">
+                  <i data-feather="layout" class="w-6 h-6"></i>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">Banner grafis belum digenerate untuk topik ini.</p>
+                <button onclick="generatePreviewForCurrentDetail()" id="btn-generate-detail-preview" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md">
+                  <i data-feather="cpu" class="w-3.5 h-3.5"></i>
+                  <span>Generate Preview AI</span>
+                </button>
+              </div>
+
+              <!-- Loading overlay -->
+              <div id="detail-banner-loader" class="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hidden">
+                <div class="w-7 h-7 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+                <span class="text-xs text-emerald-300 font-medium">Merender Banner...</span>
+              </div>
+            </div>
+
+            <!-- Quick Action below image -->
+            <div id="detail-img-actions" class="hidden flex items-center justify-between text-xs">
+              <a id="detail-img-link" href="#" target="_blank" class="text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1">
+                <i data-feather="maximize-2" class="w-3 h-3"></i> Buka Gambar Resolusi Penuh
+              </a>
+            </div>
+          </div>
+
+          <!-- Copywriting / Caption Column (Right: 7 cols) -->
+          <div class="md:col-span-7 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <i data-feather="file-text" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span>Copywriting & Caption Instagram</span>
+              </span>
+              <button onclick="copyDetailCaption()" class="text-slate-400 hover:text-white text-[11px] font-mono flex items-center gap-1 transition">
+                <i data-feather="copy" class="w-3 h-3"></i> Salin Caption
+              </button>
+            </div>
+
+            <!-- Caption Text Box -->
+            <div class="bg-[#0A0E17] border border-brand-border rounded-xl p-4 flex-1 max-h-[350px] overflow-y-auto custom-scrollbar">
+              <pre id="detail-caption-text" class="text-xs text-slate-300 whitespace-pre-wrap font-sans leading-relaxed">Klik "Generate Preview AI" di sebelah kiri untuk melihat draf caption yang dirancang oleh AI.</pre>
+            </div>
+
+            <!-- Published Meta if Live -->
+            <div id="detail-live-info" class="hidden bg-emerald-950/30 border border-emerald-800/50 rounded-xl p-3 text-xs flex flex-col gap-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-emerald-400 font-bold flex items-center gap-1">
+                  <i data-feather="check-circle" class="w-3.5 h-3.5"></i> Sudah Terbit Live di Instagram
+                </span>
+                <a id="detail-permalink-btn" href="#" target="_blank" class="text-emerald-300 hover:underline font-bold font-mono">Buka Postingan ↗</a>
+              </div>
+              <div class="text-[11px] text-slate-400 font-mono flex items-center gap-3">
+                <span>Media ID: <strong id="detail-media-id" class="text-white">--</strong></span>
+                <span>•</span>
+                <span id="detail-pub-date">--</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-brand-border bg-[#0B0F19]/90 flex items-center justify-between">
+        <button onclick="closeDetailModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">
+          Tutup
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button id="btn-detail-edit" onclick="editFromDetailModal()" class="px-4 py-2 rounded-xl bg-amber-950/50 hover:bg-amber-900/60 border border-amber-800/60 text-amber-300 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i data-feather="edit-2" class="w-3.5 h-3.5"></i>
+            <span>Edit Jadwal</span>
+          </button>
+
+          <button id="btn-detail-publish" onclick="publishFromDetailModal()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md">
+            <i data-feather="send" class="w-3.5 h-3.5"></i>
+            <span>Terbitkan Sekarang</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-brand-card border border-brand-border px-4 py-3 rounded-xl shadow-2xl text-xs flex items-center gap-3">
+    <span id="toast-icon"></span>
+    <span id="toast-text" class="text-white font-medium">Notification</span>
+  </div>
+
+  <script>
+    let activeAccount = "{{ active_account or 'phono_print' }}";
+    let currentPreview = null;
+    let currentPillars = [];
+    let currentCalendarItems = [];
+    let activeDetailItem = null;
+    let activeDetailPreview = null;
+    let targetPlanId = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      feather.replace();
+      document.getElementById('account-select').value = activeAccount;
+      applyAccountTheme(activeAccount);
+      loadAllAccountData();
+      const todayStr = new Date().toISOString().split('T')[0];
+      document.getElementById('modal-date').value = todayStr;
+    });
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toast-text');
+      const icon = document.getElementById('toast-icon');
+      text.innerText = message;
+      if (type === 'success') {
+        toast.className = 'fixed bottom-6 right-6 z-50 bg-emerald-950 border border-emerald-700 px-4 py-3 rounded-xl shadow-2xl text-xs flex items-center gap-3 text-emerald-200';
+        icon.innerHTML = '✅';
+      } else if (type === 'error') {
+        toast.className = 'fixed bottom-6 right-6 z-50 bg-red-950 border border-red-700 px-4 py-3 rounded-xl shadow-2xl text-xs flex items-center gap-3 text-red-200';
+        icon.innerHTML = '❌';
+      } else {
+        toast.className = 'fixed bottom-6 right-6 z-50 bg-amber-950 border border-amber-700 px-4 py-3 rounded-xl shadow-2xl text-xs flex items-center gap-3 text-amber-200';
+        icon.innerHTML = '⏳';
+      }
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 5000);
+    }
+
+    function switchAccount(acc) {
+      activeAccount = acc;
+      applyAccountTheme(acc);
+      loadAllAccountData();
+      showToast(`Beralih ke akun ${acc === 'cultivare' ? 'Cultivare Collective' : 'Phono Print Tegal'}!`);
+    }
+
+    function applyAccountTheme(acc) {
+      const isCultivare = acc === 'cultivare';
+
+      // Navbar
+      document.getElementById('nav-brand-name').innerText = isCultivare ? 'CULTIVARE COLLECTIVE' : 'PHONO PRINT';
+      document.getElementById('nav-badge').innerText = isCultivare ? 'GLOBAL ECONOMY & BRAND STRATEGY' : 'PRINTING & WEDDING';
+      document.getElementById('nav-badge').className = isCultivare 
+        ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full'
+        : 'bg-red-950/80 text-red-400 border border-red-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full';
+
+      document.getElementById('nav-handle').innerText = isCultivare ? '@cultivaree_' : '@phono.print_tegal';
+      document.getElementById('nav-handle').className = isCultivare ? 'text-emerald-400 font-semibold' : 'text-amber-400 font-semibold';
+      document.getElementById('nav-ig-link').href = isCultivare ? 'https://www.instagram.com/cultivaree_/' : 'https://www.instagram.com/phono.print_tegal/';
+
+      // Hero Banner
+      if (isCultivare) {
+        document.getElementById('hero-banner').className = 'bg-gradient-to-r from-emerald-950/50 via-[#10241A] to-brand-card border border-emerald-800/40 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4';
+        document.getElementById('hero-icon-box').className = 'w-12 h-12 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0';
+        document.getElementById('hero-icon-box').innerHTML = '<i data-feather="trending-up" class="w-6 h-6"></i>';
+        document.getElementById('hero-title').innerText = 'Cultivare Collective — Strategic Brand Development';
+        document.getElementById('hero-desc').innerText = 'Fokus kurasi berita bisnis global, tren makroekonomi, kultur modern & strategi brand dengan format dwibahasa (Inggris 🇬🇧 & Indonesia 🇮🇩).';
+        document.getElementById('hero-lang-pill').innerText = 'Bilingual: English 🇬🇧 + Indonesia 🇮🇩';
+        document.getElementById('btn-publish-direct-label').innerText = 'Terbitkan ke Feed @cultivaree_';
+        document.getElementById('modal-time').value = '18:00';
+      } else {
+        document.getElementById('hero-banner').className = 'bg-gradient-to-r from-red-950/40 via-brand-card to-brand-card border border-brand-border rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4';
+        document.getElementById('hero-icon-box').className = 'w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/30 flex items-center justify-center text-red-400 flex-shrink-0';
+        document.getElementById('hero-icon-box').innerHTML = '<i data-feather="printer" class="w-6 h-6"></i>';
+        document.getElementById('hero-title').innerText = 'Percetakan Industri & Undangan Digital Kreatif';
+        document.getElementById('hero-desc').innerText = 'Pilar konten berfokus pada edukasi teknis cetak (CMYK, 300 DPI, Finishing Mewah) & promo undangan website/video kekinian.';
+        document.getElementById('hero-lang-pill').innerText = 'Bahasa: Indonesia 🇮🇩';
+        document.getElementById('btn-publish-direct-label').innerText = 'Terbitkan ke Feed @phono.print_tegal';
+        document.getElementById('modal-time').value = '09:00';
+      }
+
+      feather.replace();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-button').forEach(el => {
+        el.className = 'tab-button px-4 py-2.5 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-brand-hover';
+      });
+      const pane = document.getElementById(`tab-${tabId}`);
+      const btn = document.getElementById(`tab-btn-${tabId}`);
+      if (pane) pane.classList.remove('hidden');
+      if (btn) btn.className = 'tab-button active px-4 py-2.5 rounded-xl flex items-center gap-2 transition text-white bg-brand-hover border border-brand-border';
+      feather.replace();
+    }
+
+    async function loadAllAccountData() {
+      await Promise.all([
+        loadStats(),
+        loadPillars(),
+        loadCalendar(),
+        loadHistory()
+      ]);
+    }
+
+    let currentScheduleHour = 9;
+    let currentScheduleMinute = 0;
+
+    async function loadStats() {
+      try {
+        const res = await fetch(`/api/stats?account=${activeAccount}`);
+        const data = await res.json();
+        document.getElementById('stat-published').innerText = data.published_count || 0;
+        document.getElementById('stat-scheduled').innerText = data.scheduled_count || 0;
+        
+        currentScheduleHour = data.scheduler.hour;
+        currentScheduleMinute = data.scheduler.minute;
+        document.getElementById('stat-time').innerHTML = `${String(currentScheduleHour).padStart(2, '0')}:${String(currentScheduleMinute).padStart(2, '0')} <span class="text-xs font-normal text-slate-400 font-mono">WIB</span>`;
+
+        if (data.logo_base64) {
+          document.getElementById('nav-logo-img').src = `data:image/png;base64,${data.logo_base64}`;
+        }
+
+        // Settings tab values
+        document.getElementById('cfg-name').innerText = data.brand.name;
+        document.getElementById('cfg-handle').innerText = data.brand.handle;
+        document.getElementById('cfg-acc-id').innerText = data.brand.instagram_account_id || 'Belum diisi di .env';
+        document.getElementById('input-acc-id').value = data.brand.instagram_account_id || '';
+        document.getElementById('cfg-niche').innerText = data.brand.niche;
+        document.getElementById('cfg-time').innerText = `${String(currentScheduleHour).padStart(2, '0')}:${String(currentScheduleMinute).padStart(2, '0')} WIB`;
+        document.getElementById('cfg-ratio').innerText = data.brand.default_ratio || '4:5';
+        document.getElementById('cfg-meta-status').innerText = data.health.meta_instagram.connected ? 'Terhubung (Ready)' : 'Perlu Setup Token';
+        document.getElementById('cfg-meta-status').className = data.health.meta_instagram.connected ? 'font-bold text-emerald-400' : 'font-bold text-amber-400';
+      } catch (err) {
+        console.error("Failed to load stats", err);
+      }
+    }
+
+    async function loadPillars() {
+      try {
+        const res = await fetch(`/api/pillars?account=${activeAccount}`);
+        const data = await res.json();
+        currentPillars = data.pillars || [];
+        document.getElementById('stat-pillars-count').innerHTML = `${currentPillars.length} <span class="text-xs font-normal text-slate-400">Kategori</span>`;
+
+        // Update Select Option in Generator
+        const select = document.getElementById('gen-category');
+        const modalSelect = document.getElementById('modal-category');
+        select.innerHTML = '';
+        modalSelect.innerHTML = '';
+
+        currentPillars.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.category;
+          opt.innerText = p.category;
+          select.appendChild(opt);
+
+          const optModal = document.createElement('option');
+          optModal.value = p.category;
+          optModal.innerText = p.category;
+          modalSelect.appendChild(optModal);
+        });
+
+        // Update Pillars Tab Cards
+        const container = document.getElementById('pillars-container');
+        container.innerHTML = currentPillars.map(p => `
+          <div class="bg-brand-card border border-brand-border rounded-2xl p-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="border text-xs font-bold px-2.5 py-1 rounded-lg ${activeAccount === 'cultivare' ? 'bg-emerald-950/80 text-emerald-400 border-emerald-800' : 'bg-red-950/80 text-red-400 border-red-800'}">
+                ${p.category}
+              </span>
+              <span class="text-xs font-mono text-slate-400">${p.topics.length} Topik</span>
+            </div>
+            <ul class="flex flex-col gap-2 text-xs">
+              ${p.topics.map(t => `
+                <li class="bg-[#0A0E17] border border-brand-border/60 rounded-xl p-2.5 flex items-center justify-between gap-2 hover:border-slate-500 transition">
+                  <span class="text-slate-300 flex-1">${t}</span>
+                  <button onclick="useTopic('${p.category}', '${t.replace(/'/g, "\\'")}')" class="text-emerald-400 hover:text-emerald-300 font-bold text-[11px] px-2 py-1 rounded bg-emerald-950/40 border border-emerald-800/60 flex-shrink-0">
+                    Gunakan
+                  </button>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        `).join('');
+
+      } catch (err) {
+        console.error("Failed to load pillars", err);
+      }
+    }
+
+    function useTopic(category, topic) {
+      switchTab('publish');
+      document.getElementById('gen-category').value = category;
+      document.getElementById('gen-topic').value = topic;
+      showToast("Topik berhasil dimuat ke formulir!");
+    }
+
+    async function loadCalendar() {
+      const container = document.getElementById('calendar-cards-container');
+      try {
+        const res = await fetch(`/api/calendar?account=${activeAccount}`);
+        const data = await res.json();
+        const items = data.items || [];
+        currentCalendarItems = items;
+
+        if (items.length === 0) {
+          container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 font-mono text-sm">Belum ada kalender. Klik "Generate Ulang 30 Hari".</div>`;
+          return;
+        }
+
+        container.innerHTML = items.map(item => {
+          const isPublished = item.status === 'published';
+          const dateObj = new Date(item.date);
+          const formattedDate = dateObj.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+
+          return `
+            <div class="bg-brand-card border ${isPublished ? 'border-emerald-800/60' : 'border-brand-border'} rounded-2xl p-5 flex flex-col justify-between gap-4 transition hover:border-slate-500 shadow-md">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <span class="text-xs font-mono font-bold text-slate-300 flex items-center gap-1.5 bg-[#0A0E17] px-2.5 py-1 rounded-lg border border-brand-border">
+                    <i data-feather="calendar" class="w-3.5 h-3.5 text-amber-400"></i>
+                    ${formattedDate} • <span class="text-blue-300 font-bold">🕒 ${item.time || '09:00'} WIB</span>
+                  </span>
+                  ${isPublished 
+                    ? `<span class="bg-emerald-950 border border-emerald-700 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">✔ Terbit</span>`
+                    : `<span class="bg-slate-800 text-slate-400 text-[10px] font-bold px-2 py-0.5 rounded-full">Terjadwal</span>`
+                  }
+                </div>
+
+                <div class="mb-2">
+                  <span class="inline-block border text-[11px] font-bold px-2 py-0.5 rounded-md ${activeAccount === 'cultivare' ? 'bg-emerald-950/80 text-emerald-300 border-emerald-800' : 'bg-amber-950/80 text-amber-300 border-amber-800'}">
+                    ${item.category}
+                  </span>
+                  <span class="text-[10px] font-mono text-slate-500 ml-1.5 border border-slate-800 px-1.5 py-0.5 rounded">
+                    ${item.aspect_ratio || '4:5'}
+                  </span>
+                </div>
+
+                <h4 onclick="openDetailModal('${item.id}')" class="text-sm font-bold text-white hover:text-blue-300 cursor-pointer leading-snug line-clamp-2 transition flex items-start justify-between gap-1 group" title="Klik untuk lihat detail postingan lengkap">
+                  <span>${item.topic}</span>
+                  <i data-feather="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-blue-300 group-hover:translate-x-0.5 transition flex-shrink-0 mt-0.5"></i>
+                </h4>
+              </div>
+
+              <div class="pt-3 border-t border-brand-border/60 flex items-center justify-between text-xs">
+                ${isPublished && item.permalink
+                  ? `<a href="${item.permalink}" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1">
+                      <i data-feather="external-link" class="w-3.5 h-3.5"></i> Lihat di IG
+                    </a>`
+                  : `<button onclick="publishScheduleNow('${item.id}', '${item.category}', '${item.topic.replace(/'/g, "\\'")}', '${item.aspect_ratio || '4:5'}')" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1">
+                      <i data-feather="send" class="w-3.5 h-3.5"></i> Terbitkan Sekarang
+                    </button>`
+                }
+                <div class="flex items-center gap-1.5">
+                  <button onclick="openDetailModal('${item.id}')" class="text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-950/40 hover:bg-blue-900/50 border border-blue-800/60 text-[11px] transition shadow-sm" title="Lihat Detail Postingan">
+                    <i data-feather="eye" class="w-3 h-3"></i> Detail
+                  </button>
+                  <button onclick="openEditScheduleModal('${item.id}', '${item.date}', '${item.time || '09:00'}', '${item.category}', '${item.topic.replace(/'/g, "\\'")}', '${item.aspect_ratio || '4:5'}')" class="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-950/40 hover:bg-amber-900/50 border border-amber-800/60 text-[11px] transition shadow-sm" title="Edit Jam Tayang & Topik">
+                    <i data-feather="edit-2" class="w-3 h-3"></i> Edit
+                  </button>
+                  <button onclick="deleteScheduleItem('${item.id}')" class="text-slate-500 hover:text-red-400 transition p-1" title="Hapus Jadwal">
+                    <i data-feather="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        feather.replace();
+      } catch (err) {
+        console.error("Error loading calendar", err);
+      }
+    }
+
+    async function reset30DayPlan() {
+      if (!confirm(`Generate ulang rotasi 30 hari untuk ${activeAccount === 'cultivare' ? 'Cultivare' : 'Phono Print'}?`)) return;
+      showToast("Menyusun kalender 30 hari...", "info");
+      try {
+        const res = await fetch('/api/calendar/reset-30days', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ account: activeAccount })
+        });
+        const data = await res.json();
+        showToast(data.message || "Kalender berhasil dibuat!");
+        loadCalendar();
+        loadStats();
+      } catch (err) {
+        showToast("Gagal membuat kalender", "error");
+      }
+    }
+
+    async function deleteScheduleItem(id) {
+      if (!confirm("Hapus jadwal ini?")) return;
+      try {
+        await fetch(`/api/calendar/${id}?account=${activeAccount}`, { method: 'DELETE' });
+        showToast("Jadwal dihapus.");
+        loadCalendar();
+        loadStats();
+      } catch (err) {
+        showToast("Gagal menghapus", "error");
+      }
+    }
+
+    function publishScheduleNow(id, category, topic, ratio) {
+      switchTab('publish');
+      document.getElementById('gen-category').value = category;
+      document.getElementById('gen-topic').value = topic;
+      const ratioRadios = document.getElementsByName('aspect-ratio');
+      for (let r of ratioRadios) if (r.value === ratio) r.checked = true;
+      triggerPreview(id);
+    }
+
+    // Modal
+    function openAddModal() { document.getElementById('add-modal').classList.remove('hidden'); }
+    function closeAddModal() { document.getElementById('add-modal').classList.add('hidden'); }
+
+    async function saveManualSchedule() {
+      const date = document.getElementById('modal-date').value;
+      const time = document.getElementById('modal-time').value;
+      const category = document.getElementById('modal-category').value;
+      const topic = document.getElementById('modal-topic').value;
+
+      if (!date || !topic) {
+        alert("Tanggal dan topik wajib diisi.");
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/calendar/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ account: activeAccount, date, time, category, topic, aspect_ratio: '4:5' })
+        });
+        const data = await res.json();
+        if (data.status === 'ok') {
+          showToast("Jadwal tersimpan!");
+          closeAddModal();
+          loadCalendar();
+          loadStats();
+        }
+      } catch (err) {
+        showToast("Gagal menyimpan", "error");
+      }
+    }
+
+    // Modal Ubah Jam Tayang Rutin
+    function openChangeTimeModal() {
+      document.getElementById('time-modal-account-name').innerText = activeAccount === 'cultivare' ? 'Cultivare Collective (@cultivaree_)' : 'Phono Print Tegal (@phono.print_tegal)';
+      document.getElementById('global-schedule-time').value = `${String(currentScheduleHour).padStart(2, '0')}:${String(currentScheduleMinute).padStart(2, '0')}`;
+      document.getElementById('time-modal').classList.remove('hidden');
+    }
+
+    function closeChangeTimeModal() {
+      document.getElementById('time-modal').classList.add('hidden');
+    }
+
+    async function saveGlobalScheduleTime() {
+      const timeVal = document.getElementById('global-schedule-time').value;
+      const applyToCal = document.getElementById('check-apply-calendar').checked;
+
+      if (!timeVal) {
+        alert("Pilih jam tayang yang valid.");
+        return;
+      }
+
+      showToast("Menyimpan jam tayang baru...", "info");
+      try {
+        const res = await fetch('/api/settings/schedule', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account: activeAccount,
+            time: timeVal,
+            apply_to_calendar: applyToCal
+          })
+        });
+        const data = await res.json();
+        if (data.status === 'ok') {
+          showToast(data.message || "Jam tayang berhasil diperbarui!");
+          closeChangeTimeModal();
+          await loadStats();
+          await loadCalendar();
+        } else {
+          showToast(data.message || "Gagal mengubah jam tayang", "error");
+        }
+      } catch (err) {
+        showToast("Terjadi kesalahan jaringan", "error");
+      }
+    }
+
+    // Modal Edit Jadwal Kalender
+    function openEditScheduleModal(id, date, time, category, topic, ratio) {
+      document.getElementById('edit-modal-id').value = id;
+      document.getElementById('edit-modal-date').value = date;
+      document.getElementById('edit-modal-time').value = time || '09:00';
+      document.getElementById('edit-modal-topic').value = topic;
+
+      // Populate categories in edit modal
+      const catSelect = document.getElementById('edit-modal-category');
+      catSelect.innerHTML = '';
+      currentPillars.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.category;
+        opt.innerText = p.category;
+        if (p.category === category) opt.selected = true;
+        catSelect.appendChild(opt);
+      });
+
+      // Ratio
+      document.getElementById('edit-modal-ratio').value = ratio || '4:5';
+
+      document.getElementById('edit-schedule-modal').classList.remove('hidden');
+    }
+
+    function closeEditScheduleModal() {
+      document.getElementById('edit-schedule-modal').classList.add('hidden');
+    }
+
+    async function saveEditScheduleItem() {
+      const id = document.getElementById('edit-modal-id').value;
+      const date = document.getElementById('edit-modal-date').value;
+      const time = document.getElementById('edit-modal-time').value;
+      const category = document.getElementById('edit-modal-category').value;
+      const ratio = document.getElementById('edit-modal-ratio').value;
+      const topic = document.getElementById('edit-modal-topic').value;
+
+      if (!date || !topic) {
+        alert("Tanggal dan topik rencana konten wajib diisi.");
+        return;
+      }
+
+      showToast("Memperbarui jadwal...", "info");
+      try {
+        const res = await fetch('/api/calendar/edit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account: activeAccount,
+            id: id,
+            date: date,
+            time: time,
+            category: category,
+            aspect_ratio: ratio,
+            topic: topic
+          })
+        });
+        const data = await res.json();
+        if (data.status === 'ok') {
+          showToast("Jadwal postingan berhasil diperbarui!");
+          closeEditScheduleModal();
+          await loadCalendar();
+          await loadStats();
+        } else {
+          showToast(data.message || "Gagal memperbarui jadwal", "error");
+        }
+      } catch (err) {
+        showToast("Terjadi kesalahan jaringan", "error");
+      }
+    }
+
+    // Kelola Token Akses Meta
+    async function saveCredentials() {
+      const accId = document.getElementById('input-acc-id').value.trim();
+      const token = document.getElementById('input-acc-token').value.trim();
+
+      if (!accId && !token) {
+        alert("Isi Account ID atau Access Token yang ingin diperbarui.");
+        return;
+      }
+
+      showToast("Menyimpan kredensial Meta...", "info");
+      try {
+        const res = await fetch('/api/settings/credentials', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account: activeAccount,
+            instagram_account_id: accId,
+            instagram_access_token: token
+          })
+        });
+        const data = await res.json();
+        if (data.status === 'ok') {
+          showToast(data.message || "Kredensial tersimpan!");
+          document.getElementById('input-acc-token').value = '';
+          await loadStats();
+        } else {
+          showToast(data.message || "Gagal menyimpan kredensial", "error");
+        }
+      } catch (err) {
+        showToast("Terjadi kesalahan jaringan", "error");
+      }
+    }
+
+    // Modal Detail Postingan
+    function openDetailModal(itemId) {
+      const item = currentCalendarItems.find(i => i.id === itemId);
+      if (!item) return;
+      activeDetailItem = item;
+      activeDetailPreview = null;
+
+      const isPublished = item.status === 'published';
+      const isCultivare = activeAccount === 'cultivare';
+
+      // Status badge
+      const statusBadge = document.getElementById('detail-badge-status');
+      if (isPublished) {
+        statusBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-700';
+        statusBadge.innerText = '✔ Sudah Terbit Live';
+      } else {
+        statusBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
+        statusBadge.innerText = 'Terjadwal';
+      }
+
+      // Meta text
+      const dateObj = new Date(item.date);
+      const formattedDate = dateObj.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      document.getElementById('detail-meta-text').innerText = `${formattedDate} • 🕒 ${item.time || '09:00'} WIB (${isCultivare ? 'Cultivare Collective' : 'Phono Print'})`;
+
+      // Top Bar values
+      document.getElementById('detail-category').innerText = item.category;
+      document.getElementById('detail-time').innerText = `${item.time || '09:00'} WIB`;
+      document.getElementById('detail-ratio').innerText = `${item.aspect_ratio || '4:5'} (${item.aspect_ratio === '1:1' ? '1080x1080' : '1080x1350'})`;
+
+      // Topic Headline & Subtext
+      document.getElementById('detail-topic').innerText = item.topic;
+      const subtextEl = document.getElementById('detail-subtext');
+      if (item.visual_subtext) {
+        subtextEl.innerText = item.visual_subtext;
+        subtextEl.classList.remove('hidden');
+      } else {
+        subtextEl.classList.add('hidden');
+      }
+
+      // Banner image & placeholder logic
+      const bannerImg = document.getElementById('detail-banner-img');
+      const bannerPlaceholder = document.getElementById('detail-banner-placeholder');
+      const bannerLoader = document.getElementById('detail-banner-loader');
+      const imgActions = document.getElementById('detail-img-actions');
+      const imgLink = document.getElementById('detail-img-link');
+      const captionPre = document.getElementById('detail-caption-text');
+      const liveInfo = document.getElementById('detail-live-info');
+      const btnPublish = document.getElementById('btn-detail-publish');
+
+      bannerLoader.classList.add('hidden');
+
+      if (isPublished && item.image_url) {
+        // Show published image
+        bannerImg.src = item.image_url;
+        bannerImg.classList.remove('hidden');
+        bannerPlaceholder.classList.add('hidden');
+        imgActions.classList.remove('hidden');
+        imgLink.href = item.image_url;
+        document.getElementById('detail-img-status').innerText = 'Live Feed Image';
+
+        captionPre.innerText = item.visual_headline 
+          ? `[VISUAL HEADLINE]\n${item.visual_headline}\n\n[SUBTEXT]\n${item.visual_subtext || ''}\n\nPostingan ini telah berhasil dipublikasikan ke Instagram feed akun ${isCultivare ? '@cultivaree_' : '@phono.print_tegal'}.`
+          : 'Postingan telah berhasil dipublikasikan ke Instagram feed.';
+
+        // Show live details
+        liveInfo.classList.remove('hidden');
+        document.getElementById('detail-media-id').innerText = item.media_id || '-';
+        document.getElementById('detail-pub-date').innerText = item.published_at ? new Date(item.published_at).toLocaleString('id-ID') : '-';
+        document.getElementById('detail-permalink-btn').href = item.permalink || '#';
+
+        btnPublish.classList.add('hidden'); // already published
+      } else {
+        // Scheduled item
+        bannerImg.classList.add('hidden');
+        bannerPlaceholder.classList.remove('hidden');
+        imgActions.classList.add('hidden');
+        document.getElementById('detail-img-status').innerText = 'Belum Digenerate';
+
+        captionPre.innerText = `Topik: ${item.topic}\nKategori: ${item.category}\n\n💡 Belum ada draf gambar & caption untuk jadwal ini.\nKlik tombol "⚡ Generate Preview AI" di sebelah kiri untuk membuat preview visual dan caption lengkap secara instan.`;
+        liveInfo.classList.add('hidden');
+        btnPublish.classList.remove('hidden');
+      }
+
+      document.getElementById('detail-modal').classList.remove('hidden');
+      feather.replace();
+    }
+
+    function closeDetailModal() {
+      document.getElementById('detail-modal').classList.add('hidden');
+    }
+
+    async function generatePreviewForCurrentDetail() {
+      if (!activeDetailItem) return;
+      const loader = document.getElementById('detail-banner-loader');
+      const bannerImg = document.getElementById('detail-banner-img');
+      const bannerPlaceholder = document.getElementById('detail-banner-placeholder');
+      const imgActions = document.getElementById('detail-img-actions');
+      const imgLink = document.getElementById('detail-img-link');
+      const captionPre = document.getElementById('detail-caption-text');
+      const subtextEl = document.getElementById('detail-subtext');
+
+      loader.classList.remove('hidden');
+      try {
+        const res = await fetch('/api/preview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account: activeAccount,
+            category: activeDetailItem.category,
+            topic: activeDetailItem.topic,
+            aspect_ratio: activeDetailItem.aspect_ratio || '4:5'
+          })
+        });
+        const data = await res.json();
+        if (data.status === 'ok') {
+          activeDetailPreview = data;
+          bannerImg.src = data.image_url + '?t=' + new Date().getTime();
+          bannerImg.classList.remove('hidden');
+          bannerPlaceholder.classList.add('hidden');
+          imgActions.classList.remove('hidden');
+          imgLink.href = data.image_url;
+          document.getElementById('detail-img-status').innerText = 'AI Generated Preview';
+
+          // Caption
+          captionPre.innerText = data.content.caption;
+
+          if (data.subtext_display) {
+            subtextEl.innerText = data.subtext_display;
+            subtextEl.classList.remove('hidden');
+          }
+
+          showToast("Preview grafis dan caption berhasil dibuat!");
+          feather.replace();
+        } else {
+          showToast(data.message || "Gagal membuat preview", "error");
+        }
+      } catch (err) {
+        showToast("Terjadi kesalahan preview", "error");
+      } finally {
+        loader.classList.add('hidden');
+      }
+    }
+
+    function copyDetailCaption() {
+      const text = document.getElementById('detail-caption-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Caption berhasil disalin ke clipboard!");
+      }).catch(() => {
+        showToast("Gagal menyalin", "error");
+      });
+    }
+
+    function editFromDetailModal() {
+      if (!activeDetailItem) return;
+      const item = activeDetailItem;
+      closeDetailModal();
+      openEditScheduleModal(item.id, item.date, item.time, item.category, item.topic, item.aspect_ratio);
+    }
+
+    function publishFromDetailModal() {
+      if (!activeDetailItem) return;
+      const item = activeDetailItem;
+      closeDetailModal();
+      if (activeDetailPreview) {
+        currentPreview = activeDetailPreview;
+        targetPlanId = item.id;
+        switchTab('publish');
+        document.getElementById('preview-empty').classList.add('hidden');
+        document.getElementById('preview-content').classList.remove('hidden');
+        document.getElementById('preview-image').src = activeDetailPreview.image_url;
+        document.getElementById('preview-category-text').innerText = activeDetailPreview.content.category;
+        document.getElementById('preview-headline-text').innerText = activeDetailPreview.headline_display;
+        document.getElementById('preview-caption-text').innerText = activeDetailPreview.content.caption;
+        publishFromPreview();
+      } else {
+        publishScheduleNow(item.id, item.category, item.topic, item.aspect_ratio || '4:5');
+      }
+    }
+
+    // History
+    async function loadHistory() {
+      const container = document.getElementById('history-container');
+      try {
+        const res = await fetch(`/api/history?account=${activeAccount}`);
+        const data = await res.json();
+        const history = data.history || [];
+
+        if (history.length === 0) {
+          container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 font-mono text-sm">Belum ada riwayat postingan untuk akun ini.</div>`;
+          return;
+        }
+
+        container.innerHTML = history.map(item => {
+          const dateStr = item.timestamp ? new Date(item.timestamp).toLocaleString('id-ID') : '-';
+
+          return `
+            <div class="bg-brand-card border border-brand-border rounded-2xl p-4 flex gap-4 transition hover:border-slate-500">
+              <a href="${item.image_url}" target="_blank" class="w-24 h-24 rounded-xl overflow-hidden bg-black flex-shrink-0 border border-brand-border block">
+                <img src="${item.image_url}" alt="Thumbnail" class="w-full h-full object-cover">
+              </a>
+              <div class="flex flex-col justify-between flex-1">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="inline-block border text-[10px] font-bold px-2 py-0.5 rounded-md ${activeAccount === 'cultivare' ? 'bg-emerald-950/80 text-emerald-400 border-emerald-800' : 'bg-red-950/80 text-red-400 border-red-800'}">
+                      ${item.category}
+                    </span>
+                    <span class="text-[10px] font-mono text-slate-500">${dateStr}</span>
+                  </div>
+                  <h4 class="text-xs font-bold text-white line-clamp-2 mb-1">${item.visual_headline || 'Postingan Live'}</h4>
+                  <p class="text-[11px] text-slate-400 line-clamp-1">${item.visual_subtext || ''}</p>
+                </div>
+                <div class="pt-2 border-t border-brand-border/60 flex items-center justify-between text-xs">
+                  <a href="${item.permalink}" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1">
+                    <i data-feather="external-link" class="w-3.5 h-3.5"></i> Buka Post Instagram
+                  </a>
+                  <span class="text-[10px] font-mono text-slate-500">ID: ${item.media_id ? item.media_id.slice(-6) : '-'}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        feather.replace();
+      } catch (err) {
+        console.error("Error loading history", err);
+      }
+    }
+
+    // Preview
+    async function triggerPreview(planId = null) {
+      targetPlanId = planId;
+      const category = document.getElementById('gen-category').value;
+      const topic = document.getElementById('gen-topic').value;
+      const ratioRadios = document.getElementsByName('aspect-ratio');
+      let ratio = '4:5';
+      for (let r of ratioRadios) if (r.checked) ratio = r.value;
+
+      const loader = document.getElementById('gen-loader');
+      const loaderText = document.getElementById('gen-loader-text');
+      const btnPreview = document.getElementById('btn-preview');
+      const btnPublish = document.getElementById('btn-publish-direct');
+
+      loader.classList.remove('hidden');
+      loaderText.innerText = "Memproses Gemini AI & rendering visual banner...";
+      btnPreview.disabled = true;
+      btnPublish.disabled = true;
+
+      try {
+        const res = await fetch('/api/preview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ account: activeAccount, category, topic, aspect_ratio: ratio })
+        });
+        const data = await res.json();
+
+        if (data.status === 'ok') {
+          currentPreview = data;
+          document.getElementById('preview-empty').classList.add('hidden');
+          document.getElementById('preview-content').classList.remove('hidden');
+
+          document.getElementById('preview-image').src = data.image_url + '?t=' + new Date().getTime();
+          document.getElementById('preview-badge').innerText = `Rasio: ${data.aspect_ratio}`;
+          document.getElementById('preview-category-text').innerText = data.content.category;
+          document.getElementById('preview-headline-text').innerText = data.headline_display;
+          document.getElementById('preview-caption-text').innerText = data.content.caption;
+          document.getElementById('preview-ratio-label').innerText = `Rasio: ${data.aspect_ratio} (${data.aspect_ratio === '4:5' ? '1080x1350' : '1080x1080'})`;
+
+          showToast("Preview grafis dan caption siap!");
+        } else {
+          showToast(data.message || "Gagal membuat preview", "error");
+        }
+      } catch (err) {
+        showToast("Terjadi kesalahan preview", "error");
+      } finally {
+        loader.classList.add('hidden');
+        btnPreview.disabled = false;
+        btnPublish.disabled = false;
+      }
+    }
+
+    // Direct Publish
+    async function triggerPublishDirect() {
+      if (!confirm(`Terbitkan postingan baru langsung ke feed Instagram ${activeAccount === 'cultivare' ? '@cultivaree_' : '@phono.print_tegal'} sekarang?`)) return;
+
+      const category = document.getElementById('gen-category').value;
+      const topic = document.getElementById('gen-topic').value;
+      const ratioRadios = document.getElementsByName('aspect-ratio');
+      let ratio = '4:5';
+      for (let r of ratioRadios) if (r.checked) ratio = r.value;
+
+      const loader = document.getElementById('gen-loader');
+      const loaderText = document.getElementById('gen-loader-text');
+      loader.classList.remove('hidden');
+      loaderText.innerText = "Menghasilkan konten, rendering, upload CDN, & publikasi Instagram...";
+
+      try {
+        const res = await fetch('/api/publish-now', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ account: activeAccount, category, topic, aspect_ratio: ratio })
+        });
+        const data = await res.json();
+
+        if (data.status === 'ok') {
+          showToast("Berhasil terbit live di Instagram!");
+          alert(`🎉 Postingan Sukses Terbit!\n\nTautan Instagram:\n${data.permalink}`);
+          window.open(data.permalink, '_blank');
+          loadStats();
+          loadHistory();
+          loadCalendar();
+        } else {
+          showToast(data.message || "Gagal menerbitkan postingan", "error");
+        }
+      } catch (err) {
+        showToast("Terjadi kesalahan publikasi", "error");
+      } finally {
+        loader.classList.add('hidden');
+      }
+    }
+
+    // Publish from Preview
+    async function publishFromPreview() {
+      if (!currentPreview) return;
+      if (!confirm(`Publikasikan gambar dan caption preview ini ke feed ${activeAccount === 'cultivare' ? '@cultivaree_' : '@phono.print_tegal'}?`)) return;
+
+      const btn = document.getElementById('btn-publish-preview');
+      btn.disabled = true;
+      btn.innerText = "Mengunggah & Menerbitkan ke Instagram...";
+
+      try {
+        const res = await fetch('/api/publish-now', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account: activeAccount,
+            content: currentPreview.content,
+            image_filename: currentPreview.image_filename,
+            aspect_ratio: currentPreview.aspect_ratio,
+            plan_id: targetPlanId
+          })
+        });
+        const data = await res.json();
+
+        if (data.status === 'ok') {
+          showToast("Berhasil terbit live di Instagram!");
+          alert(`🎉 Postingan Sukses Terbit!\n\nTautan Instagram:\n${data.permalink}`);
+          window.open(data.permalink, '_blank');
+          loadStats();
+          loadHistory();
+          loadCalendar();
+        } else {
+          showToast(data.message || "Gagal memublikasikan", "error");
+        }
+      } catch (err) {
+        showToast("Terjadi kesalahan publikasi", "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-feather="send" class="w-4 h-4"></i><span>Setuju & Terbitkan Gambar Ini ke Instagram</span>`;
+        feather.replace();
+      }
+    }
+  </script>
+</body>
+</html>
