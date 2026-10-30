@@ -140,8 +140,17 @@ class Config:
         if not found:
             lines.append(f"{key}={value}\n")
 
-        with open(env_path, "w", encoding="utf-8") as f:
-            f.writelines(lines)
+        try:
+            with open(env_path, "w", encoding="utf-8") as f:
+                f.writelines(lines)
+        except (OSError, PermissionError) as e:
+            # Serverless read-only filesystem (e.g. Vercel) - write to /tmp/.env as mirror if possible
+            try:
+                tmp_env = Path("/tmp/.env")
+                with open(tmp_env, "w", encoding="utf-8") as f:
+                    f.writelines(lines)
+            except Exception:
+                pass
 
         os.environ[key] = str(value)
 

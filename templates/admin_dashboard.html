@@ -447,12 +447,17 @@
               <label class="block font-bold text-slate-300 mb-1">Meta Access Token (Never-Expiring Page Token / Long-Lived Token)</label>
               <textarea id="input-acc-token" rows="3" placeholder="EAAP..." class="w-full bg-[#0A0E17] border border-brand-border rounded-xl px-3 py-2 text-white font-mono text-[11px]"></textarea>
             </div>
-            <div class="flex justify-end pt-2">
-              <button onclick="saveCredentials()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition flex items-center gap-1.5 shadow-md">
+            <div class="flex flex-wrap justify-between items-center gap-2 pt-2">
+              <button type="button" onclick="testMetaToken()" class="px-4 py-2 rounded-xl bg-blue-600/80 hover:bg-blue-600 text-white font-semibold transition flex items-center gap-1.5 border border-blue-500/30 text-xs">
+                <i data-feather="check-circle" class="w-3.5 h-3.5"></i>
+                <span>Test Koneksi Token Meta</span>
+              </button>
+              <button type="button" onclick="saveCredentials()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition flex items-center gap-1.5 shadow-md text-xs">
                 <i data-feather="save" class="w-3.5 h-3.5"></i>
                 <span>Simpan Kredensial Meta</span>
               </button>
             </div>
+            <div id="meta-test-result" class="hidden text-xs rounded-xl p-3 mt-1"></div>
           </div>
         </div>
 
@@ -1250,6 +1255,42 @@
     }
 
     // Kelola Token Akses Meta
+    async function testMetaToken() {
+      const accId = document.getElementById('input-acc-id').value.trim();
+      const token = document.getElementById('input-acc-token').value.trim();
+      const resBox = document.getElementById('meta-test-result');
+
+      resBox.className = 'text-xs rounded-xl p-3 mt-1 bg-blue-900/30 border border-blue-500/30 text-blue-300 flex items-center gap-2';
+      resBox.innerHTML = '<span>⏳</span> Menghubungi Meta Graph API untuk verifikasi token...';
+      resBox.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/settings/test-meta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account: activeAccount,
+            instagram_account_id: accId,
+            instagram_access_token: token
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'ok') {
+          resBox.className = 'text-xs rounded-xl p-3 mt-1 bg-emerald-900/30 border border-emerald-500/40 text-emerald-300';
+          resBox.innerHTML = `<strong>✓ Terhubung!</strong> Akun: <b>@${data.meta.username || accId}</b> (${data.meta.name || ''}) • Followers: ${data.meta.followers_count || 0} • Postingan: ${data.meta.media_count || 0}.<br><span class="text-[11px] text-emerald-400">Token aktif dan valid untuk publikasi otomatis!</span>`;
+          showToast("Token Meta Valid & Terhubung!", "success");
+        } else {
+          resBox.className = 'text-xs rounded-xl p-3 mt-1 bg-red-900/30 border border-red-500/40 text-red-300';
+          resBox.innerHTML = `<strong>✕ Gagal Verifikasi:</strong> ${data.message || 'Token tidak valid atau kedaluwarsa.'}`;
+          showToast(data.message || "Token Meta Gagal diverifikasi", "error");
+        }
+      } catch (err) {
+        resBox.className = 'text-xs rounded-xl p-3 mt-1 bg-red-900/30 border border-red-500/40 text-red-300';
+        resBox.innerHTML = `<strong>✕ Error Koneksi:</strong> ${err.message}`;
+        showToast("Gagal menghubungi server", "error");
+      }
+    }
+
     async function saveCredentials() {
       const accId = document.getElementById('input-acc-id').value.trim();
       const token = document.getElementById('input-acc-token').value.trim();

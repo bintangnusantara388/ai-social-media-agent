@@ -95,6 +95,7 @@ def save_content_plan(plan: List[Dict[str, Any]], account: str = "phono_print") 
     """Saves the content plan to JSON file."""
     cal_file = get_calendar_file(account)
     try:
+        cal_file.parent.mkdir(parents=True, exist_ok=True)
         with open(cal_file, "w", encoding="utf-8") as f:
             json.dump(plan, f, indent=2, ensure_ascii=False)
         return True

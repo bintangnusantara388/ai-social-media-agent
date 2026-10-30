@@ -206,17 +206,47 @@ class ImageGenerator:
     def _render_with_pillow(self, context: Dict[str, Any], output_path: Path, dimensions: tuple) -> Path:
         """
         Pure Python Pillow fallback creating high-fidelity graphic banner.
-        Supports both Dark Tech Print style and Warm Amber/Sunset Wedding style.
+        Supports 4 distinct branded visual systems:
+        1. Cultivare (Forest Green / Editorial Luxury & Global Strategy)
+        2. Promo Kekinian (High-Conversion Crimson/Ruby & Gold Badges)
+        3. Wedding / Undangan Digital (Warm Amber / Sunset Gold Mockup Frame)
+        4. Tech Print (Cyan/Magenta Calibration & Dark Carbon Grid)
         """
         from PIL import Image, ImageDraw, ImageFont
 
         width, height = dimensions
-        is_wedding = context.get("is_digital_invitation", False)
+        is_cultivare = (
+            context.get("brand_name") == "Cultivare" or
+            context.get("brand_handle") == "@cultivaree_" or
+            "cultivare" in context.get("category", "").lower() or
+            "headline_en" in context or
+            context.get("account") == "cultivare"
+        )
+        is_promo = (
+            not is_cultivare and (
+                "promo" in context.get("category", "").lower() or
+                "promo" in context.get("visual_headline", "").lower() or
+                context.get("theme") == "promo" or
+                "promo_price" in context
+            )
+        )
+        is_wedding = (
+            not is_cultivare and not is_promo and (
+                context.get("is_digital_invitation", False) or
+                "undangan" in context.get("category", "").lower() or
+                "wedding" in context.get("category", "").lower()
+            )
+        )
 
         def get_font(size: int, bold: bool = False):
             font_candidates = [
+                # Windows fonts
                 "C:/Windows/Fonts/segoeuib.ttf" if bold else "C:/Windows/Fonts/segoeui.ttf",
                 "C:/Windows/Fonts/arialbd.ttf" if bold else "C:/Windows/Fonts/arial.ttf",
+                # Linux / Vercel fonts
+                "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+                "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+                "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf" if bold else "/usr/share/fonts/truetype/freefont/FreeSans.ttf",
             ]
             for font_file in font_candidates:
                 if os.path.exists(font_file):
@@ -224,10 +254,231 @@ class ImageGenerator:
                         return ImageFont.truetype(font_file, size)
                     except Exception:
                         pass
-            return ImageFont.load_default()
+            # Pillow 10+ scalable default font
+            try:
+                return ImageFont.load_default(size=size)
+            except Exception:
+                return ImageFont.load_default()
 
-        # ==================== WEDDING THEME (UNDANGAN DIGITAL) ====================
-        if is_wedding:
+        # =========================================================================
+        # 1. CULTIVARE THEME (Luxury Forest Green / Editorial Strategic Branding)
+        # =========================================================================
+        if is_cultivare:
+            img = Image.new("RGB", (width, height))
+            draw = ImageDraw.Draw(img)
+
+            # Deep Forest Green Luxury Gradient: #05130D to #0E281C
+            for y in range(height):
+                factor = y / height
+                r = int(5 * (1 - factor) + 14 * factor)
+                g = int(19 * (1 - factor) + 40 * factor)
+                b = int(13 * (1 - factor) + 28 * factor)
+                draw.line([(0, y), (width, y)], fill=(r, g, b))
+
+            # Elegant Inner Framing
+            draw.rounded_rectangle([(40, 40), (width - 40, height - 40)], radius=24, outline="#163A27", width=2)
+
+            # Cultivare Logo Card or Brand Typography
+            cultivare_logo_path = ASSETS_DIR / "cultivare_logo.png"
+            if cultivare_logo_path.exists():
+                try:
+                    c_logo = Image.open(cultivare_logo_path).convert("RGBA")
+                    scale = 46.0 / c_logo.height
+                    c_logo_w = int(c_logo.width * scale)
+                    c_resized = c_logo.resize((c_logo_w, 46), Image.Resampling.LANCZOS)
+                    img.paste(c_resized, (80, 75), c_resized)
+                except Exception:
+                    draw.text((80, 80), "CULTIVARE", fill="#F8FAFC", font=get_font(26, bold=True))
+            else:
+                draw.text((80, 80), "CULTIVARE", fill="#F8FAFC", font=get_font(26, bold=True))
+
+            # Strategic Pillar Badge
+            draw.rounded_rectangle([(width - 380, 72), (width - 80, 126)], radius=25, fill="#0A2216", outline="#10B981", width=1)
+            draw.text((width - 355, 87), "🌿 STRATEGIC INSIGHT", fill="#34D399", font=get_font(16, bold=True))
+
+            # Edition Label
+            draw.text((80, 200), context.get("edition_label", "GLOBAL PERSPECTIVE // 2026"), fill="#34D399", font=get_font(16, bold=True))
+
+            # Bilingual Headline Wrapping
+            hl_raw = context.get("headline_en", context.get("visual_headline", "Growth is not about speed. It is about roots."))
+            words = hl_raw.split()
+            lines, cur_line = [], []
+            for w in words:
+                cur_line.append(w)
+                if len(" ".join(cur_line)) > 19:
+                    lines.append(" ".join(cur_line))
+                    cur_line = []
+            if cur_line:
+                lines.append(" ".join(cur_line))
+
+            y_hl = 250
+            font_hl = get_font(52, bold=True)
+            for i, line in enumerate(lines[:3]):
+                color = "#34D399" if i == len(lines[:3]) - 1 else "#F8FAFC"
+                draw.text((80, y_hl), line, fill=color, font=font_hl)
+                y_hl += 72
+
+            # Indonesian Subtitle / Translation
+            hl_id = context.get("headline_id", "")
+            if hl_id:
+                draw.text((80, y_hl + 15), f"\"{hl_id}\"", fill="#94A3B8", font=get_font(22))
+                y_hl += 60
+
+            # Strategic Principle Card
+            y_card = max(y_hl + 40, 560)
+            card_h = 320 if height >= 1350 else 240
+            draw.rounded_rectangle([(80, y_card), (width - 80, y_card + card_h)], radius=18, fill="#071911", outline="#1E3A2B", width=2)
+            draw.rounded_rectangle([(80, y_card), (92, y_card + card_h)], radius=4, fill="#10B981")
+
+            # English Subtext
+            sub_en = context.get("subtext_en", "Sustainable brand value is never built overnight.")
+            words_en = sub_en.split()
+            sl_en, cur = [], []
+            for w in words_en:
+                cur.append(w)
+                if len(" ".join(cur)) > 38:
+                    sl_en.append(" ".join(cur))
+                    cur = []
+            if cur:
+                sl_en.append(" ".join(cur))
+
+            sy = y_card + 35
+            for l in sl_en[:2]:
+                draw.text((120, sy), l, fill="#F1F5F9", font=get_font(24, bold=True))
+                sy += 38
+
+            # Indonesian Subtext
+            sub_id = context.get("subtext_id", "Fondasi strategi yang mengakar adalah pembeda antara tren sesaat dan bisnis abadi.")
+            words_id = sub_id.split()
+            sl_id, cur = [], []
+            for w in words_id:
+                cur.append(w)
+                if len(" ".join(cur)) > 42:
+                    sl_id.append(" ".join(cur))
+                    cur = []
+            if cur:
+                sl_id.append(" ".join(cur))
+
+            sy += 15
+            for l in sl_id[:2]:
+                draw.text((120, sy), l, fill="#94A3B8", font=get_font(20))
+                sy += 32
+
+            # CTA Pill
+            y_cta = y_card + card_h + 35
+            if height >= 1350:
+                draw.rounded_rectangle([(80, y_cta), (380, y_cta + 65)], radius=32, fill="#064E3B", outline="#10B981", width=1)
+                draw.text((115, y_cta + 20), "LETS TO CONNECT ➔", fill="#A7F3D0", font=get_font(18, bold=True))
+
+            # Footer
+            y_footer = height - 120
+            draw.line([(80, y_footer), (width - 80, y_footer)], fill="#1E3A2B", width=2)
+            draw.text((80, y_footer + 30), context.get("brand_handle", "@cultivaree_"), fill="#F8FAFC", font=get_font(22, bold=True))
+            draw.text((width - 420, y_footer + 32), "STRATEGIC BRAND DEVELOPMENT", fill="#34D399", font=get_font(16, bold=True))
+
+            img.save(str(output_path), "JPEG", quality=95)
+            return output_path
+
+        # =========================================================================
+        # 2. PROMO KEKINIAN THEME (Ruby Red / High-Conversion Discount System)
+        # =========================================================================
+        elif is_promo:
+            img = Image.new("RGB", (width, height))
+            draw = ImageDraw.Draw(img)
+
+            # Deep Crimson to Dark Carbon Gradient
+            for y in range(height):
+                factor = y / height
+                r = int(127 * (1 - factor) + 24 * factor)
+                g = int(29 * (1 - factor) + 4 * factor)
+                b = int(29 * (1 - factor) + 10 * factor)
+                draw.line([(0, y), (width, y)], fill=(r, g, b))
+
+            # Header: Logo Card
+            if LOGO_PATH.exists():
+                logo_raw = Image.open(LOGO_PATH).convert("RGBA")
+                scale = 46.0 / logo_raw.height
+                logo_w = int(logo_raw.width * scale)
+                logo_resized = logo_raw.resize((logo_w, 46), Image.Resampling.LANCZOS)
+                draw.rounded_rectangle([(80, 65), (80 + logo_w + 36, 131)], radius=14, fill="#FFFFFF")
+                img.paste(logo_resized, (98, 74), logo_resized)
+
+            # Top Badge: Promo Spesial
+            draw.rounded_rectangle([(width - 390, 68), (width - 80, 122)], radius=25, fill="#5C0D17", outline="#FACC15", width=2)
+            draw.text((width - 365, 82), "🔥 SPESIAL BULAN INI", fill="#FACC15", font=get_font(18, bold=True))
+
+            # Headline Wrapping
+            headline_text = context["visual_headline"]
+            words = headline_text.split()
+            lines, cur_line = [], []
+            for w in words:
+                cur_line.append(w)
+                if len(" ".join(cur_line)) > 18:
+                    lines.append(" ".join(cur_line))
+                    cur_line = []
+            if cur_line:
+                lines.append(" ".join(cur_line))
+
+            y_offset = 220
+            font_headline = get_font(54, bold=True)
+            for i, line in enumerate(lines[:3]):
+                color = "#FACC15" if i == len(lines[:3]) - 1 else "#FFFFFF"
+                draw.text((80, y_offset), line, fill=color, font=font_headline)
+                y_offset += 74
+
+            # Center Stage: Big Price Showcase Box
+            y_box = y_offset + 30
+            box_h = 360 if height >= 1350 else 300
+            draw.rounded_rectangle([(80, y_box), (width - 80, y_box + box_h)], radius=20, fill="#2D0A10", outline="#F59E0B", width=2)
+
+            # Discount Badge inside Box
+            draw.rounded_rectangle([(110, y_box + 30), (330, y_box + 85)], radius=14, fill="#DC2626")
+            draw.text((135, y_box + 44), f"DISKON {context.get('discount_percent', '22%')}", fill="#FFFFFF", font=get_font(20, bold=True))
+
+            # Pricing: Strike Price and Promo Price
+            draw.text((115, y_box + 120), f"Harga Normal: Rp {context.get('strike_price', '90K')}", fill="#9CA3AF", font=get_font(24))
+            draw.line([(115, y_box + 135), (390, y_box + 135)], fill="#EF4444", width=3)
+
+            draw.text((115, y_box + 170), "CUMA", fill="#FFFFFF", font=get_font(28, bold=True))
+            draw.text((220, y_box + 155), context.get("promo_price", "70K"), fill="#FACC15", font=get_font(60, bold=True))
+            draw.text((360, y_box + 185), "/ WEBSITE LENGKAP", fill="#FDE047", font=get_font(18, bold=True))
+
+            # Feature bullets on the right
+            fx = 560
+            fy = y_box + 40
+            bullets = [
+                "✓ Desain Premium Kekinian",
+                "✓ Navigasi Google Maps",
+                "✓ Amplop Digital & QRIS",
+                "✓ Backsound Musik & RSVP",
+                "✓ Bebas Revisi Sepuasnya"
+            ]
+            for b in bullets:
+                draw.text((fx, fy), b, fill="#FFFFFF", font=get_font(20, bold=True))
+                fy += 44
+
+            # Subtext Banner
+            y_sub = y_box + box_h + 30
+            draw.rounded_rectangle([(80, y_sub), (width - 80, y_sub + 120)], radius=14, fill="#3B0C15", outline="#F59E0B", width=1)
+            draw.text((110, y_sub + 24), "PROMO TERBATAS // KHUSUS 20 PEMESAN PERTAMA", fill="#FACC15", font=get_font(18, bold=True))
+            draw.text((110, y_sub + 60), context.get("visual_subtext", "Pilihan tema adat & modern siap tampil cantik di smartphone tamu."), fill="#E2E8F0", font=get_font(20))
+
+            # Footer
+            y_footer = height - 120
+            draw.line([(80, y_footer), (width - 80, y_footer)], fill="#F59E0B", width=2)
+            draw.rounded_rectangle([(80, y_footer + 20), (480, y_footer + 85)], radius=30, fill="#FFFFFF")
+            draw.text((110, y_footer + 36), "💬 PESAN: 085141316787", fill="#DC2626", font=get_font(18, bold=True))
+
+            draw.text((width - 340, y_footer + 28), context["brand_handle"], fill="#FFFFFF", font=get_font(20, bold=True))
+            draw.text((width - 340, y_footer + 56), "OFFSET & DIGITAL TEGAL", fill="#FACC15", font=get_font(14, bold=True))
+
+            img.save(str(output_path), "JPEG", quality=95)
+            return output_path
+
+        # =========================================================================
+        # 3. WEDDING THEME (Undangan Digital Adat & Modern Showcase)
+        # =========================================================================
+        elif is_wedding:
             # Gradient: Warm Amber to Crimson Gold
             img = Image.new("RGB", (width, height))
             draw = ImageDraw.Draw(img)
@@ -285,7 +536,6 @@ class ImageGenerator:
             if mockup_path_str and os.path.exists(mockup_path_str):
                 try:
                     mock_img = Image.open(mockup_path_str).convert("RGB")
-                    # Resize to fit frame (460x260)
                     mock_resized = mock_img.resize((480, 270), Image.Resampling.LANCZOS)
                     img.paste(mock_resized, (110, y_stage + 45))
                 except Exception as e:
@@ -331,7 +581,6 @@ class ImageGenerator:
             # Footer
             y_footer = height - 120
             draw.line([(80, y_footer), (width - 80, y_footer)], fill="#D97706", width=2)
-            # WhatsApp Button
             draw.rounded_rectangle([(80, y_footer + 20), (450, y_footer + 85)], radius=30, fill="#FFFFFF")
             draw.text((110, y_footer + 36), "💬 PESAN: 085141316787", fill="#C62828", font=get_font(18, bold=True))
 
@@ -341,7 +590,9 @@ class ImageGenerator:
             img.save(str(output_path), "JPEG", quality=95)
             return output_path
 
-        # ==================== DEFAULT TECH PRINT THEME ====================
+        # =========================================================================
+        # 4. DEFAULT TECH PRINT THEME (Offset & Digital Technical Infographic)
+        # =========================================================================
         img = Image.new("RGB", (width, height), color="#0B0E14")
         draw = ImageDraw.Draw(img)
 

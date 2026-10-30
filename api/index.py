@@ -23,14 +23,17 @@ class VercelPathMiddleware:
         self.wsgi_app = wsgi_app
 
     def __call__(self, environ, start_response):
-        # Prefer original client URI from Vercel proxy headers
-        orig = environ.get("HTTP_X_FORWARDED_URI") or environ.get("HTTP_X_MATCHED_PATH")
-        if orig:
-            environ["PATH_INFO"] = orig.split("?")[0]
+        # 1. Prefer HTTP_X_FORWARDED_URI (client original URI) if present and valid
+        forwarded_uri = environ.get("HTTP_X_FORWARDED_URI")
+        if forwarded_uri and forwarded_uri not in ("/api/index", "/api/index.py"):
+            environ["PATH_INFO"] = forwarded_uri.split("?")[0]
         else:
+            # 2. If PATH_INFO is the Vercel internal function path, normalize to root /
             path = environ.get("PATH_INFO", "")
             if path in ("/api/index", "/api/index.py", "/api", ""):
                 environ["PATH_INFO"] = "/"
+            elif path.startswith("/api/index/"):
+                environ["PATH_INFO"] = path[len("/api/index"):]
 
         return self.wsgi_app(environ, start_response)
 

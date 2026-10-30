@@ -85,6 +85,7 @@ def save_history(record: dict, account: str = "phono_print"):
     hist_file = STORAGE_DIR / f"publish_history_{account}.json" if account == "cultivare" else STORAGE_DIR / "publish_history.json"
     hist = get_history(account)
     hist.append(record)
+    hist_file.parent.mkdir(parents=True, exist_ok=True)
     with open(hist_file, "w", encoding="utf-8") as f:
         json.dump(hist, f, indent=2, ensure_ascii=False)
 
@@ -312,6 +313,54 @@ def api_update_credentials():
     })
 
 
+@app.route("/api/settings/test-meta", methods=["POST"])
+def api_test_meta_token():
+    """Validates Instagram Account ID and Access Token via Meta Graph API."""
+    import urllib.request
+    import urllib.error
+
+    data = request.json or {}
+    account = data.get("account", "phono_print")
+    cfg = Config.get_account_config(account)
+    acc_id = data.get("instagram_account_id") or cfg.get("instagram_account_id")
+    token = data.get("instagram_access_token") or cfg.get("instagram_access_token")
+
+    if not acc_id or not token:
+        return jsonify({
+            "status": "error",
+            "message": "Account ID dan Access Token wajib diisi untuk pengetesan."
+        }), 400
+
+    try:
+        url = f"https://graph.facebook.com/{Config.GRAPH_API_VERSION}/{acc_id}?fields=id,username,name,followers_count,media_count&access_token={token}"
+        req = urllib.request.Request(url)
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            meta_data = json.loads(resp.read().decode("utf-8"))
+            return jsonify({
+                "status": "ok",
+                "account": account,
+                "meta": meta_data,
+                "message": f"Koneksi Meta Graph API Berhasil! Terhubung ke Instagram @{meta_data.get('username', acc_id)}."
+            })
+    except urllib.error.HTTPError as e:
+        err_body = e.read().decode("utf-8")
+        try:
+            err_json = json.loads(err_body).get("error", {})
+            err_msg = err_json.get("message", err_body)
+            err_code = err_json.get("code")
+            if err_code == 190 or "expired" in err_msg.lower():
+                return jsonify({
+                    "status": "error",
+                    "error_type": "token_expired",
+                    "message": "Token Akses Meta telah KEDALUWARSA (Expired)! Dapatkan Page Access Token baru dari Meta Graph API Explorer."
+                }), 400
+            return jsonify({"status": "error", "message": f"Meta API Error ({err_code}): {err_msg}"}), 400
+        except Exception:
+            return jsonify({"status": "error", "message": f"Meta API Error: {err_body}"}), 400
+    except Exception as e:
+        return jsonify({"status": "error", "message": f"Gagal menghubungi Meta: {str(e)}"}), 500
+
+
 
 @app.route("/api/history")
 def api_history():
@@ -491,11 +540,20 @@ def api_publish_now():
         })
 
     except Exception as e:
-        logger.error(f"Error publishing post for {account}: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
+        err_str = str(e)
+        logger.error(f"Error publishing post for {account}: {err_str}")
+        if "190" in err_str or "expired" in err_str.lower() or "OAuthException" in err_str:
+            user_msg = (
+                "Token Akses Meta telah KEDALUWARSA (Expired)! "
+                "Silakan buka menu '🔑 Kredensial' dan perbarui Access Token dengan Page Access Token yang baru dari Meta Graph API Explorer."
+            )
+        else:
+            user_msg = f"Gagal Publikasi: {err_str}"
+        return jsonify({"status": "error", "message": user_msg, "raw_error": err_str}), 500
 
 
 @app.route("/storage/output/<path:filename>")
+@app.route("/output/<path:filename>")
 def serve_output_file(filename):
     """Serves generated JPEG banners."""
     return send_from_directory(str(OUTPUT_DIR), filename)
