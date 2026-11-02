@@ -64,5 +64,28 @@
     "media_id": "18174291049415251",
     "permalink": "https://www.instagram.com/p/DfOWhvuHXK4/",
     "elapsed_seconds": 10.96
+  },
+  {
+    "timestamp": "2026-11-02T11:01:00.041383",
+    "account": "cultivare",
+    "category": "Global Business Trends",
+    "visual_headline": "Efficiency is not a moat. Architecture is.",
+    "visual_subtext": "Generative AI collapses operational costs, yet true enterprise value relies on structural moats, not algorithmic speed.",
+    "image_url": "https://res.cloudinary.com/phono-print/image/upload/v1793592048/print_social_agent/rb3kl9gutrosgdmpprdw.jpg",
+    "media_id": "18136746916733525",
+    "permalink": "https://www.instagram.com/p/DfOZlcXHQs_/",
+    "elapsed_seconds": 17.85
+  },
+  {
+    "timestamp": "2026-11-02T11:15:31.891532",
+    "account": "cultivare",
+    "category": "Global Business Trends",
+    "visual_headline": "Efficiency is not advantage. Structure is the ultimate margin.",
+    "visual_subtext": "As generative AI collapses the cost of creation, enterprise value shifts permanently from operational execution to deep strategic architecture.",
+    "image_url": "https://res.cloudinary.com/phono-print/image/upload/v1793592918/print_social_agent/tcl15r6xkypz1yrxr9bx.jpg",
+    "media_id": "18170037646462778",
+    "permalink": "https://www.instagram.com/p/DfObPoPFCtU/",
+    "elapsed_seconds": 22.72,
+    "triggered_by": "auto_upload_daemon_24h"
   }
 ]

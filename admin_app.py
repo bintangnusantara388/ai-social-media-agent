@@ -91,6 +91,8 @@ def save_history(record: dict, account: str = "phono_print"):
 
 
 @app.route("/")
+@app.route("/api")
+@app.route("/api/")
 @app.route("/api/index")
 @app.route("/api/index.py")
 def index():
@@ -552,114 +554,211 @@ def api_publish_now():
         return jsonify({"status": "error", "message": user_msg, "raw_error": err_str}), 500
 
 
-@app.route("/api/cron/publish", methods=["GET", "POST"])
-def api_cron_publish():
-    """
-    Automated Cron Trigger Endpoint for 24/7 Cloud Publishing.
-    Can be invoked by Vercel Cron, GitHub Actions, or external web-cron services (cron-job.org).
-    Finds the next pending scheduled post for the target account and executes the publish pipeline.
-    """
-    account = request.args.get("account", "phono_print")
-    cfg = Config.get_account_config(account)
+# ==============================================================================
+# 24/7 AUTONOMOUS AUTO-UPLOAD ENGINE & CRON ENDPOINTS
+# ==============================================================================
+import threading
 
-    # 1. Load Calendar Plan
+AUTO_UPLOAD_ACTIVE = True
+LAST_AUTO_UPLOAD = {
+    "phono_print": {"date": None, "permalink": None},
+    "cultivare": {"date": None, "permalink": None}
+}
+
+
+def execute_publish_for_account(account: str, trigger_source: str = "auto_scheduler") -> dict:
+    """
+    Executes automated publication pipeline for the next scheduled item of an account.
+    Used by both Background Worker Daemon and Cloud Cron Endpoints.
+    """
+    cfg = Config.get_account_config(account)
     plan = load_content_plan(account)
     today_str = datetime.now().strftime("%Y-%m-%d")
 
-    # Find post scheduled for today that is not yet published, or first pending scheduled item
+    # Priority 1: Post scheduled specifically for today
     target_item = None
     for item in plan:
         if item.get("status") == "scheduled" and item.get("date") == today_str:
             target_item = item
             break
 
+    # Priority 2: Next upcoming scheduled item in calendar
     if not target_item:
-        # Fallback to the first upcoming scheduled item in calendar
         for item in plan:
             if item.get("status") == "scheduled":
                 target_item = item
                 break
 
     if not target_item:
-        return jsonify({
+        return {
             "status": "idle",
             "account": account,
             "message": "Tidak ada konten terjadwal yang menunggu publikasi saat ini."
-        }), 200
+        }
 
     category = target_item.get("category")
     topic = target_item.get("topic")
     aspect_ratio = target_item.get("aspect_ratio", cfg.get("default_ratio", "4:5"))
     plan_id = target_item.get("id")
 
-    try:
-        start_time = time.time()
+    start_time = time.time()
 
-        # Step 1: Content Generation
-        if account == "cultivare":
-            content_engine = CultivareContentGenerator()
-            content_dict = content_engine.generate(category_override=category, topic_hint=topic)
-            content_dict["account"] = "cultivare"
-            caption = content_dict.get("caption")
-            visual_headline = content_dict.get("headline_en")
-            visual_subtext = content_dict.get("subtext_en")
-        else:
-            content_engine = ContentGenerator()
-            gen_content = content_engine.generate(category_override=category, topic_hint=topic)
-            content_dict = gen_content.to_dict()
-            content_dict["account"] = "phono_print"
-            caption = gen_content.caption
-            visual_headline = gen_content.visual_headline
-            visual_subtext = gen_content.visual_subtext
+    # Step 1: Content Generation
+    if account == "cultivare":
+        content_engine = CultivareContentGenerator()
+        content_dict = content_engine.generate(category_override=category, topic_hint=topic)
+        content_dict["account"] = "cultivare"
+        caption = content_dict.get("caption")
+        visual_headline = content_dict.get("headline_en")
+        visual_subtext = content_dict.get("subtext_en")
+    else:
+        content_engine = ContentGenerator()
+        gen_content = content_engine.generate(category_override=category, topic_hint=topic)
+        content_dict = gen_content.to_dict()
+        content_dict["account"] = "phono_print"
+        caption = gen_content.caption
+        visual_headline = gen_content.visual_headline
+        visual_subtext = gen_content.visual_subtext
 
-        # Step 2: Image Render
-        image_engine = ImageGenerator()
-        local_image_path = image_engine.render(content_dict, aspect_ratio=aspect_ratio)
+    # Step 2: Image Rendering
+    image_engine = ImageGenerator()
+    local_image_path = image_engine.render(content_dict, aspect_ratio=aspect_ratio)
 
-        # Step 3: Cloud Storage Upload
-        storage_engine = CloudStorageUploader()
-        public_image_url = storage_engine.upload_image(local_image_path)
+    # Step 3: Cloud Storage Upload
+    storage_engine = CloudStorageUploader()
+    public_image_url = storage_engine.upload_image(local_image_path)
 
-        # Step 4: Publish to Instagram
-        ig_publisher = InstagramPublisher(
-            account_id=cfg.get("instagram_account_id"),
-            access_token=cfg.get("instagram_access_token")
-        )
-        publish_result = ig_publisher.publish_feed_post(
-            image_url=public_image_url,
-            caption=caption
-        )
+    # Step 4: Instagram Publish
+    ig_publisher = InstagramPublisher(
+        account_id=cfg.get("instagram_account_id"),
+        access_token=cfg.get("instagram_access_token")
+    )
+    publish_result = ig_publisher.publish_feed_post(
+        image_url=public_image_url,
+        caption=caption
+    )
 
-        elapsed = round(time.time() - start_time, 2)
-        permalink = publish_result.get("permalink")
-        media_id = publish_result.get("media_id")
+    elapsed = round(time.time() - start_time, 2)
+    permalink = publish_result.get("permalink")
+    media_id = publish_result.get("media_id")
 
-        # Step 5: Save Audit & Update Status
-        record = {
-            "timestamp": datetime.now().isoformat(),
-            "account": account,
-            "category": category,
-            "visual_headline": visual_headline,
-            "visual_subtext": visual_subtext,
-            "image_url": public_image_url,
-            "media_id": media_id,
-            "permalink": permalink,
-            "elapsed_seconds": elapsed,
-            "triggered_by": "cron_24h"
+    # Step 5: Save Audit & Update Status
+    record = {
+        "timestamp": datetime.now().isoformat(),
+        "account": account,
+        "category": category,
+        "visual_headline": visual_headline,
+        "visual_subtext": visual_subtext,
+        "image_url": public_image_url,
+        "media_id": media_id,
+        "permalink": permalink,
+        "elapsed_seconds": elapsed,
+        "triggered_by": trigger_source
+    }
+    save_history(record, account)
+    if plan_id:
+        update_schedule_status(plan_id, "published", permalink=permalink, account=account)
+
+    LAST_AUTO_UPLOAD[account] = {
+        "date": today_str,
+        "timestamp": datetime.now().isoformat(),
+        "topic": topic,
+        "permalink": permalink
+    }
+
+    return {
+        "status": "ok",
+        "account": account,
+        "topic": topic,
+        "permalink": permalink,
+        "media_id": media_id,
+        "image_url": public_image_url,
+        "elapsed_seconds": elapsed,
+        "message": f"Otomasi Berhasil: Konten '{topic}' berhasil terbit ke {cfg['handle']}!"
+    }
+
+
+def start_auto_upload_worker():
+    """Starts the 24/7 background worker thread that monitors schedules and uploads automatically."""
+    def worker_loop():
+        logger.info("🚀 24/7 Auto-Upload Background Engine AKTIF! Memonitor jadwal secara berkelanjutan...")
+        while True:
+            try:
+                now = datetime.now()
+                today_str = now.strftime("%Y-%m-%d")
+                current_hm = now.strftime("%H:%M")
+
+                for account in ["phono_print", "cultivare"]:
+                    cfg = Config.get_account_config(account)
+                    target_hm = f"{cfg['schedule_hour']:02d}:{cfg['schedule_minute']:02d}"
+                    plan = load_content_plan(account)
+
+                    for item in plan:
+                        if item.get("status") == "scheduled" and item.get("date") == today_str:
+                            item_time = item.get("time", target_hm)
+                            last_date = LAST_AUTO_UPLOAD.get(account, {}).get("date")
+
+                            # Trigger when current time reaches or exceeds scheduled time
+                            if current_hm >= item_time and last_date != today_str:
+                                logger.info(f"⏰ [AUTO-UPLOAD 24H] Waktu tayang tercapai untuk {account} ({current_hm} >= {item_time})!")
+                                logger.info(f"🚀 Memulai publikasi otomatis: '{item.get('topic')}'...")
+                                res = execute_publish_for_account(account, trigger_source="auto_upload_daemon_24h")
+                                if res.get("status") == "ok":
+                                    logger.info(f"✓ [AUTO-UPLOAD SUKSES] {account} terbit di Instagram: {res.get('permalink')}")
+                                else:
+                                    logger.warning(f"⚠️ [AUTO-UPLOAD HASIL] {account}: {res.get('message')}")
+                                break
+            except Exception as e:
+                logger.error(f"Error in auto_upload_worker loop: {e}")
+
+            time.sleep(30)
+
+    # Only run background thread when not in serverless lambda
+    if not os.environ.get("VERCEL"):
+        t = threading.Thread(target=worker_loop, daemon=True, name="AutoUploadWorker")
+        t.start()
+
+
+# Start background worker immediately on app launch
+start_auto_upload_worker()
+
+
+@app.route("/api/scheduler/status")
+def api_scheduler_status():
+    """Returns the real-time status of the 24/7 auto-upload engine."""
+    now = datetime.now()
+    p_cfg = Config.get_account_config("phono_print")
+    c_cfg = Config.get_account_config("cultivare")
+
+    return jsonify({
+        "status": "ok",
+        "auto_upload_active": AUTO_UPLOAD_ACTIVE,
+        "current_time": now.strftime("%H:%M WIB"),
+        "current_date": now.strftime("%Y-%m-%d"),
+        "schedules": {
+            "phono_print": {
+                "target_time": f"{p_cfg['schedule_hour']:02d}:{p_cfg['schedule_minute']:02d} WIB",
+                "last_upload": LAST_AUTO_UPLOAD.get("phono_print")
+            },
+            "cultivare": {
+                "target_time": f"{c_cfg['schedule_hour']:02d}:{c_cfg['schedule_minute']:02d} WIB",
+                "last_upload": LAST_AUTO_UPLOAD.get("cultivare")
+            }
         }
-        save_history(record, account)
-        if plan_id:
-            update_schedule_status(plan_id, "published", permalink=permalink, account=account)
+    })
 
-        return jsonify({
-            "status": "ok",
-            "account": account,
-            "message": f"Otomasi 24 Jam: Konten '{topic}' berhasil dipublikasikan ke {cfg['handle']}!",
-            "permalink": permalink,
-            "media_id": media_id,
-            "image_url": public_image_url,
-            "elapsed_seconds": elapsed
-        })
+
+@app.route("/api/cron/publish", methods=["GET", "POST"])
+def api_cron_publish():
+    """
+    Automated Cron Trigger Endpoint for 24/7 Cloud Publishing.
+    Can be invoked by Vercel Cron, GitHub Actions, or external web-cron services (cron-job.org).
+    """
+    account = request.args.get("account", "phono_print")
+    try:
+        res = execute_publish_for_account(account, trigger_source="cloud_cron_24h")
+        status_code = 200 if res.get("status") in ("ok", "idle") else 400
+        return jsonify(res), status_code
     except Exception as e:
         logger.error(f"Cron 24h execution error for {account}: {e}")
         return jsonify({"status": "error", "account": account, "message": str(e)}), 500

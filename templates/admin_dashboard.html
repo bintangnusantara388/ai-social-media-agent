@@ -133,6 +133,31 @@
       </div>
     </div>
 
+    <!-- 24/7 AUTO-UPLOAD ENGINE STATUS BANNER -->
+    <div class="bg-gradient-to-r from-emerald-950/40 via-[#102217]/50 to-brand-card border border-emerald-500/30 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-lg">
+      <div class="flex items-center gap-3.5">
+        <div class="relative flex items-center justify-center flex-shrink-0">
+          <div class="w-3.5 h-3.5 bg-emerald-400 rounded-full animate-ping absolute"></div>
+          <div class="w-3.5 h-3.5 bg-emerald-500 rounded-full relative"></div>
+        </div>
+        <div>
+          <h4 class="text-sm font-bold text-white flex items-center gap-2">
+            <span>SISTEM AUTO-UPLOAD: AKTIF 24 JAM</span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full font-mono font-bold">AUTONOMOUS</span>
+          </h4>
+          <p class="text-xs text-slate-300 mt-0.5">
+            Konten kalender otomatis di-generate dan di-upload ke Instagram setiap hari (Phono Print: <strong class="text-amber-400">09:00 WIB</strong> • Cultivare: <strong class="text-emerald-400">18:30 WIB</strong>) tanpa perlu klik manual.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="triggerAutoUploadNow()" class="text-xs font-bold text-emerald-300 hover:text-white bg-emerald-900/50 hover:bg-emerald-800/80 border border-emerald-600/50 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-md active:scale-95">
+          <i data-feather="zap" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Uji Auto-Upload Sekarang</span>
+        </button>
+      </div>
+    </div>
+
     <!-- METRICS SUMMARY CARDS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       
@@ -1181,6 +1206,31 @@
         }
       } catch (err) {
         showToast("Terjadi kesalahan jaringan", "error");
+      }
+    }
+
+    // Uji Auto-Upload Otomatis Hari Ini
+    async function triggerAutoUploadNow() {
+      const accName = activeAccount === 'cultivare' ? 'Cultivare Collective (@cultivaree_)' : 'Phono Print Tegal (@phono.print_tegal)';
+      if (!confirm(`Jalankan Auto-Upload otomatis untuk akun ${accName} sekarang?\n\nSistem akan mengambil jadwal hari ini, membuat visual serasi, mengupload ke Cloudinary, dan langsung memublikasikan ke feed Instagram.`)) {
+        return;
+      }
+      showToast("Menjalankan Auto-Upload 24 Jam...", "info");
+      try {
+        const res = await fetch(`/api/cron/publish?account=${activeAccount}`);
+        const data = await res.json();
+        if (res.ok && data.status === 'ok') {
+          showToast(data.message || "Auto-Upload Berhasil!", "success");
+          await loadCalendar();
+          await loadStats();
+          await loadHistory();
+        } else if (data.status === 'idle') {
+          showToast(data.message || "Tidak ada jadwal pending untuk hari ini.", "info");
+        } else {
+          showToast(data.message || "Gagal menjalankan auto-upload", "error");
+        }
+      } catch (err) {
+        showToast("Terjadi kesalahan: " + err.message, "error");
       }
     }
 
