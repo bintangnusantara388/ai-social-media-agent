@@ -29,8 +29,8 @@
     "category": "Material & Kertas",
     "topic": "Memilih Kertas: Perbedaan Karakteristik Art Paper vs Art Carton",
     "aspect_ratio": "4:5",
-    "status": "scheduled",
-    "permalink": null,
+    "status": "published",
+    "permalink": "https://www.instagram.com/p/DfOXelRiVuw/",
     "notes": "Auto-generated schedule"
   },
   {
@@ -51,9 +51,20 @@
     "category": "Tips Bisnis & Efisiensi",
     "topic": "Optimasi Layout Cetak (Gang Run): Trik Hemat Ongkos Produksi Massal",
     "aspect_ratio": "1:1",
+    "status": "published",
+    "permalink": "https://www.instagram.com/p/DfOXvRWHRYA/",
+    "notes": "Auto-generated schedule"
+  },
+  {
+    "id": "plan_20261104",
+    "date": "2026-11-02",
+    "time": "10:46",
+    "category": "Undangan Digital Video",
+    "topic": "Undangan Video Animasi Adat: Jawa, Sunda, Minang, Bali, hingga Sumatra",
+    "aspect_ratio": "4:5",
     "status": "scheduled",
     "permalink": null,
-    "notes": "Auto-generated schedule"
+    "notes": ""
   },
   {
     "id": "plan_20261103",
@@ -64,17 +75,6 @@
     "aspect_ratio": "4:5",
     "status": "published",
     "permalink": "https://www.instagram.com/p/DfOVinkCdHc/",
-    "notes": "Auto-generated schedule"
-  },
-  {
-    "id": "plan_20261104",
-    "date": "2026-11-04",
-    "time": "09:00",
-    "category": "Undangan Digital Video",
-    "topic": "Undangan Video Animasi Adat: Jawa, Sunda, Minang, Bali, hingga Sumatra",
-    "aspect_ratio": "4:5",
-    "status": "scheduled",
-    "permalink": null,
     "notes": "Auto-generated schedule"
   },
   {

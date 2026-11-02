@@ -81,5 +81,28 @@
     "media_id": "18111852614353225",
     "permalink": "https://www.instagram.com/p/DfOXLN4HaDS/",
     "elapsed_seconds": 16.61
+  },
+  {
+    "timestamp": "2026-11-02T10:42:35.598330",
+    "account": "phono_print",
+    "category": "Material & Kertas",
+    "visual_headline": "Art Paper vs Art Carton: Mana Pilihanmu?",
+    "visual_subtext": "Kenali perbedaan ketebalan dan karakteristiknya agar hasil cetak brosur atau undanganmu sempurna.",
+    "image_url": "https://res.cloudinary.com/phono-print/image/upload/v1793590944/print_social_agent/koh5ggmcewsdjqncbg9n.jpg",
+    "media_id": "17904084036672412",
+    "permalink": "https://www.instagram.com/p/DfOXelRiVuw/",
+    "elapsed_seconds": 12.04
+  },
+  {
+    "timestamp": "2026-11-02T10:44:51.138607",
+    "account": "phono_print",
+    "category": "Tips Bisnis & Efisiensi",
+    "visual_headline": "Trik Hemat Cetak Massal Gang Run",
+    "visual_subtext": "Gabungkan beberapa desain dalam satu plat cetak untuk tekan biaya produksi secara drastis.",
+    "image_url": "https://res.cloudinary.com/phono-print/image/upload/v1793591080/print_social_agent/ua4kzp2qjnvfekcqtslp.jpg",
+    "media_id": "18591856402068778",
+    "permalink": "https://www.instagram.com/p/DfOXvRWHRYA/",
+    "elapsed_seconds": 43.36,
+    "triggered_by": "cron_24h"
   }
 ]

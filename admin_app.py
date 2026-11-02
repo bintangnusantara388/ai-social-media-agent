@@ -552,6 +552,119 @@ def api_publish_now():
         return jsonify({"status": "error", "message": user_msg, "raw_error": err_str}), 500
 
 
+@app.route("/api/cron/publish", methods=["GET", "POST"])
+def api_cron_publish():
+    """
+    Automated Cron Trigger Endpoint for 24/7 Cloud Publishing.
+    Can be invoked by Vercel Cron, GitHub Actions, or external web-cron services (cron-job.org).
+    Finds the next pending scheduled post for the target account and executes the publish pipeline.
+    """
+    account = request.args.get("account", "phono_print")
+    cfg = Config.get_account_config(account)
+
+    # 1. Load Calendar Plan
+    plan = load_content_plan(account)
+    today_str = datetime.now().strftime("%Y-%m-%d")
+
+    # Find post scheduled for today that is not yet published, or first pending scheduled item
+    target_item = None
+    for item in plan:
+        if item.get("status") == "scheduled" and item.get("date") == today_str:
+            target_item = item
+            break
+
+    if not target_item:
+        # Fallback to the first upcoming scheduled item in calendar
+        for item in plan:
+            if item.get("status") == "scheduled":
+                target_item = item
+                break
+
+    if not target_item:
+        return jsonify({
+            "status": "idle",
+            "account": account,
+            "message": "Tidak ada konten terjadwal yang menunggu publikasi saat ini."
+        }), 200
+
+    category = target_item.get("category")
+    topic = target_item.get("topic")
+    aspect_ratio = target_item.get("aspect_ratio", cfg.get("default_ratio", "4:5"))
+    plan_id = target_item.get("id")
+
+    try:
+        start_time = time.time()
+
+        # Step 1: Content Generation
+        if account == "cultivare":
+            content_engine = CultivareContentGenerator()
+            content_dict = content_engine.generate(category_override=category, topic_hint=topic)
+            content_dict["account"] = "cultivare"
+            caption = content_dict.get("caption")
+            visual_headline = content_dict.get("headline_en")
+            visual_subtext = content_dict.get("subtext_en")
+        else:
+            content_engine = ContentGenerator()
+            gen_content = content_engine.generate(category_override=category, topic_hint=topic)
+            content_dict = gen_content.to_dict()
+            content_dict["account"] = "phono_print"
+            caption = gen_content.caption
+            visual_headline = gen_content.visual_headline
+            visual_subtext = gen_content.visual_subtext
+
+        # Step 2: Image Render
+        image_engine = ImageGenerator()
+        local_image_path = image_engine.render(content_dict, aspect_ratio=aspect_ratio)
+
+        # Step 3: Cloud Storage Upload
+        storage_engine = CloudStorageUploader()
+        public_image_url = storage_engine.upload_image(local_image_path)
+
+        # Step 4: Publish to Instagram
+        ig_publisher = InstagramPublisher(
+            account_id=cfg.get("instagram_account_id"),
+            access_token=cfg.get("instagram_access_token")
+        )
+        publish_result = ig_publisher.publish_feed_post(
+            image_url=public_image_url,
+            caption=caption
+        )
+
+        elapsed = round(time.time() - start_time, 2)
+        permalink = publish_result.get("permalink")
+        media_id = publish_result.get("media_id")
+
+        # Step 5: Save Audit & Update Status
+        record = {
+            "timestamp": datetime.now().isoformat(),
+            "account": account,
+            "category": category,
+            "visual_headline": visual_headline,
+            "visual_subtext": visual_subtext,
+            "image_url": public_image_url,
+            "media_id": media_id,
+            "permalink": permalink,
+            "elapsed_seconds": elapsed,
+            "triggered_by": "cron_24h"
+        }
+        save_history(record, account)
+        if plan_id:
+            update_schedule_status(plan_id, "published", permalink=permalink, account=account)
+
+        return jsonify({
+            "status": "ok",
+            "account": account,
+            "message": f"Otomasi 24 Jam: Konten '{topic}' berhasil dipublikasikan ke {cfg['handle']}!",
+            "permalink": permalink,
+            "media_id": media_id,
+            "image_url": public_image_url,
+            "elapsed_seconds": elapsed
+        })
+    except Exception as e:
+        logger.error(f"Cron 24h execution error for {account}: {e}")
+        return jsonify({"status": "error", "account": account, "message": str(e)}), 500
+
+
 @app.route("/storage/output/<path:filename>")
 @app.route("/output/<path:filename>")
 def serve_output_file(filename):

@@ -1,5 +1,15 @@
 {
   "version": 2,
+  "crons": [
+    {
+      "path": "/api/cron/publish?account=phono_print",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/publish?account=cultivare",
+      "schedule": "30 11 * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
