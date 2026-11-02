@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1080, height=1350">
-  <title>Phono Print - Instagram 4:5 Post</title>
+  <title>Phono Print - Edukasi & Percetakan 4:5</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -16,7 +16,7 @@
     body {
       width: 1080px;
       height: 1350px;
-      background-color: #0B0E14;
+      background: radial-gradient(circle at 50% 20%, #FFA726 0%, #E65100 45%, #BF360C 75%, #3E1004 100%);
       color: #FFFFFF;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow: hidden;
@@ -24,41 +24,24 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 80px 80px 70px 80px;
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(192, 10, 39, 0.15) 0%, transparent 45%),
-        radial-gradient(circle at 85% 75%, rgba(255, 184, 0, 0.12) 0%, transparent 45%),
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 45px 45px, 45px 45px;
+      padding: 70px 75px 65px 75px;
     }
 
-    /* Print Precision Crop & Registration Marks */
-    .crop-mark {
-      position: absolute;
-      width: 32px;
-      height: 32px;
-      border-color: rgba(255, 255, 255, 0.3);
-      pointer-events: none;
-    }
-    .top-left { top: 30px; left: 30px; border-top: 2px solid; border-left: 2px solid; }
-    .top-right { top: 30px; right: 30px; border-top: 2px solid; border-right: 2px solid; }
-    .bottom-left { bottom: 30px; left: 30px; border-bottom: 2px solid; border-left: 2px solid; }
-    .bottom-right { bottom: 30px; right: 30px; border-bottom: 2px solid; border-right: 2px solid; }
-
-    /* Top CMYK Calibration Bar */
-    .cmyk-bar {
+    /* Ambient Gold Shimmer Pattern */
+    .bg-overlay {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 8px;
-      display: flex;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 10% 90%, rgba(255, 215, 0, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 35%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      pointer-events: none;
     }
-    .cmyk-c { flex: 1; background-color: #00E5FF; }
-    .cmyk-m { flex: 1; background-color: #FF007F; }
-    .cmyk-y { flex: 1; background-color: #FFD600; }
-    .cmyk-k { flex: 1; background-color: #262B35; }
 
     /* Header */
     .header {
@@ -69,12 +52,12 @@
     }
     .logo-container {
       background: #FFFFFF;
-      padding: 10px 22px;
+      padding: 10px 24px;
       border-radius: 14px;
       display: flex;
       align-items: center;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
     .logo-img {
       height: 48px;
@@ -82,148 +65,133 @@
       display: block;
     }
 
-    .badge-group {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-    }
-    .category-badge {
+    .badge-no1 {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 8px 18px;
-      background: rgba(192, 10, 39, 0.15);
-      border: 1px solid #C00A27;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 215, 0, 0.6);
       border-radius: 100px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: #FF4D6D;
-    }
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #FFB800;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #FFB800;
-    }
-    .city-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: #94A3B8;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #FFD54F;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     /* Content Area */
     .content-body {
       display: flex;
       flex-direction: column;
-      gap: 36px;
+      gap: 22px;
       z-index: 10;
-      margin-top: 10px;
+      margin-top: 5px;
     }
-    .series-vol {
+    .category-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 15px;
-      color: #FFB800;
+      color: #FFF9C4;
       letter-spacing: 2.5px;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
-    .series-vol::before {
+    .category-tag::before {
       content: "";
-      width: 24px;
+      width: 20px;
       height: 3px;
-      background: #FFB800;
+      background: #FFD54F;
       display: inline-block;
       border-radius: 2px;
     }
 
     .headline {
-      font-size: 64px;
+      font-size: 58px;
       font-weight: 900;
       line-height: 1.15;
-      letter-spacing: -1.8px;
+      letter-spacing: -1.5px;
       color: #FFFFFF;
-      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+      text-transform: uppercase;
+      text-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
     }
     .headline .highlight-yellow {
-      color: #FFB800;
-      background: linear-gradient(90deg, #FFB800 0%, #FFD600 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #FFEB3B;
+      text-shadow: 0 0 25px rgba(255, 235, 59, 0.6);
     }
     .headline .highlight-red {
-      color: #FF4D6D;
-      background: linear-gradient(90deg, #FF4D6D 0%, #C00A27 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #FFEB3B;
+      text-shadow: 0 0 25px rgba(255, 235, 59, 0.6);
+    }
+
+    /* Center Stage Box (Matching Undangan Digital Glass Stage) */
+    .feature-stage {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      border-radius: 24px;
+      padding: 24px 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      backdrop-filter: blur(6px);
+    }
+    .feature-dot {
+      width: 32px;
+      height: 32px;
+      background: #FFD54F;
+      color: #3E1004;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 900;
+      flex-shrink: 0;
+      box-shadow: 0 2px 10px rgba(255, 213, 79, 0.4);
+    }
+    .feature-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+    .feature-desc {
+      font-size: 13px;
+      color: #FFFDE7;
+      margin-top: 2px;
+      opacity: 0.85;
     }
 
     /* Subtext Box */
     .subtext-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-left: 6px solid #C00A27;
-      border-radius: 16px;
-      padding: 26px 32px;
-      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-left: 6px solid #FFEB3B;
+      border-radius: 14px;
+      padding: 20px 26px;
+      backdrop-filter: blur(8px);
     }
     .subtext {
-      font-size: 26px;
-      font-weight: 500;
+      font-size: 22px;
+      font-weight: 600;
       line-height: 1.5;
-      color: #E2E8F0;
-    }
-
-    /* 4:5 Extra Feature Grid (Checklist / Tips) */
-    .checklist-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 5px;
-    }
-    .check-item {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 18px 22px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .check-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: rgba(255, 184, 0, 0.15);
-      color: #FFB800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .check-text-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #FFFFFF;
-    }
-    .check-text-desc {
-      font-size: 13px;
-      color: #94A3B8;
-      margin-top: 2px;
+      color: #FFFDE7;
     }
 
     /* Footer */
@@ -231,134 +199,122 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 30px;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 215, 0, 0.35);
       z-index: 10;
     }
-    .cta-box {
-      display: flex;
+    .cta-button {
+      display: inline-flex;
       align-items: center;
-      gap: 14px;
-      background: linear-gradient(90deg, #C00A27 0%, #8A051A 100%);
-      padding: 14px 26px;
+      gap: 10px;
+      background: #FFFFFF;
+      color: #C62828;
+      padding: 14px 28px;
       border-radius: 100px;
-      box-shadow: 0 4px 20px rgba(192, 10, 39, 0.4);
-    }
-    .cta-text {
       font-size: 16px;
-      font-weight: 800;
-      color: #FFFFFF;
-      letter-spacing: 1px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
       text-transform: uppercase;
+      border: 2px solid #FFEB3B;
     }
-    .cta-arrow {
+    .cta-button .arrow {
+      color: #E65100;
       font-size: 18px;
-      color: #FFB800;
     }
 
     .footer-right {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 6px;
+      gap: 4px;
     }
     .handle {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       color: #FFFFFF;
+      letter-spacing: 0.5px;
     }
-    .studio-sub {
+    .tagline {
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
-      color: #FFB800;
+      color: #FFEB3B;
+      font-weight: 700;
       letter-spacing: 1px;
     }
   </style>
 </head>
 <body>
-  <!-- Print Crop Marks -->
-  <div class="crop-mark top-left"></div>
-  <div class="crop-mark top-right"></div>
-  <div class="crop-mark bottom-left"></div>
-  <div class="crop-mark bottom-right"></div>
-
-  <!-- CMYK Calibration Top Accent Bar -->
-  <div class="cmyk-bar">
-    <div class="cmyk-c"></div>
-    <div class="cmyk-m"></div>
-    <div class="cmyk-y"></div>
-    <div class="cmyk-k"></div>
-  </div>
+  <!-- Ambient Shimmer -->
+  <div class="bg-overlay"></div>
 
   <!-- Header -->
   <div class="header">
     <div class="logo-container">
       <img class="logo-img" src="data:image/png;base64,{{ logo_base64 }}" alt="Phono Print Logo">
     </div>
-    <div class="badge-group">
-      <div class="category-badge">
-        <span class="badge-dot"></span>
-        <span>{{ category }}</span>
-      </div>
-      <span class="city-tag">TEGAL - CREATIVE PRINT LAB</span>
+    <div class="badge-no1">
+      <span>👑</span>
+      <span>OFFSET & DIGITAL PRINT #1</span>
     </div>
   </div>
 
-  <!-- Main Body Content -->
+  <!-- Content Body -->
   <div class="content-body">
-    <div class="series-vol">PRINTING PRO-SERIES // VOL. {{ series_number }}</div>
-    
+    <div class="category-tag">{{ category }} // VOL. {{ series_number }}</div>
+
     <div class="headline">
       {{ visual_headline_html|safe }}
     </div>
 
-    <div class="subtext-card">
-      <p class="subtext">{{ visual_subtext }}</p>
+    <!-- Center Stage Box (Harmonious with Undangan Digital) -->
+    <div class="feature-stage">
+      <div class="feature-card">
+        <div class="feature-dot">✓</div>
+        <div>
+          <div class="feature-title">Color Mode: CMYK</div>
+          <div class="feature-desc">Presisi warna cetak anti kusam</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-dot">✓</div>
+        <div>
+          <div class="feature-title">Resolusi 300 DPI</div>
+          <div class="feature-desc">Hasil cetak tajam & anti pecah</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-dot">✓</div>
+        <div>
+          <div class="feature-title">Finishing Mewah</div>
+          <div class="feature-desc">Laminasi Doff, Glossy, Spot UV & Foil</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-dot">✓</div>
+        <div>
+          <div class="feature-title">Kualitas Terjamin</div>
+          <div class="feature-desc">Mesin cetak offset & digital modern</div>
+        </div>
+      </div>
     </div>
 
-    <!-- 4:5 Aspect Ratio Benefit: Quick Checklist Elements -->
-    <div class="checklist-grid">
-      <div class="check-item">
-        <div class="check-icon">✓</div>
-        <div>
-          <div class="check-text-title">Color Mode: CMYK</div>
-          <div class="check-text-desc">Cegah pergeseran warna kusam</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-icon">✓</div>
-        <div>
-          <div class="check-text-title">Resolusi 300 DPI</div>
-          <div class="check-text-desc">Hasil cetak tajam & tidak pecah</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-icon">✓</div>
-        <div>
-          <div class="check-text-title">Bleed Area 3mm</div>
-          <div class="check-text-desc">Aman dari pisau potong mesin</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-icon">✓</div>
-        <div>
-          <div class="check-text-title">Format PDF/X-1a</div>
-          <div class="check-text-desc">Standar industri percetakan modern</div>
-        </div>
-      </div>
+    <!-- Subtext Box -->
+    <div class="subtext-card">
+      <p class="subtext">{{ visual_subtext }}</p>
     </div>
   </div>
 
   <!-- Footer -->
   <div class="footer">
-    <div class="cta-box">
-      <span class="cta-text">Swipe Untuk Detail Solusi</span>
-      <span class="cta-arrow">➔</span>
+    <div class="cta-button">
+      <span>Konsultasi Cetak Gratis</span>
+      <span class="arrow">➔</span>
     </div>
     <div class="footer-right">
       <div class="handle">{{ brand_handle }}</div>
-      <div class="studio-sub">OFFSET & DIGITAL PRINTING TEGAL</div>
+      <div class="tagline">TEGAL - CREATIVE PRINT LAB</div>
     </div>
   </div>
 </body>

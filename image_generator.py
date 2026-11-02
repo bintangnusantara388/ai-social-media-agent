@@ -591,35 +591,21 @@ class ImageGenerator:
             return output_path
 
         # =========================================================================
-        # 4. DEFAULT TECH PRINT THEME (Offset & Digital Technical Infographic)
+        # 4. EDUKASI TEKNIS & PERCETAKAN THEME (Warm Amber / Sunset Gold Harmonious)
         # =========================================================================
-        img = Image.new("RGB", (width, height), color="#0B0E14")
+        # Sesuai permintaan: diseragamkan dengan estetika Undangan Digital agar serasi & mewah
+        img = Image.new("RGB", (width, height))
         draw = ImageDraw.Draw(img)
 
-        # Background Grid Pattern
-        for x in range(0, width, 60):
-            draw.line([(x, 0), (x, height)], fill="#111622", width=1)
-        for y in range(0, height, 60):
-            draw.line([(0, y), (width, y)], fill="#111622", width=1)
+        # Gradient: Warm Amber to Crimson Gold (Identik dengan Undangan Digital)
+        for y in range(height):
+            factor = y / height
+            r = int(245 * (1 - factor) + 90 * factor)
+            g = int(140 * (1 - factor) + 15 * factor)
+            b = int(10 * (1 - factor) + 5 * factor)
+            draw.line([(0, y), (width, y)], fill=(r, g, b))
 
-        # Top CMYK Calibration Bar
-        cmyk_colors = ["#00E5FF", "#FF007F", "#FFD600", "#262B35"]
-        bar_w = width // 4
-        for i, col in enumerate(cmyk_colors):
-            draw.rectangle([(i * bar_w, 0), ((i + 1) * bar_w, 8)], fill=col)
-
-        # Corner Crop Marks
-        crop_color = "#475569"
-        draw.line([(30, 30), (70, 30)], fill=crop_color, width=2)
-        draw.line([(30, 30), (30, 70)], fill=crop_color, width=2)
-        draw.line([(width - 30, 30), (width - 70, 30)], fill=crop_color, width=2)
-        draw.line([(width - 30, 30), (width - 30, 70)], fill=crop_color, width=2)
-        draw.line([(30, height - 30), (70, height - 30)], fill=crop_color, width=2)
-        draw.line([(30, height - 30), (30, height - 70)], fill=crop_color, width=2)
-        draw.line([(width - 30, height - 30), (width - 70, height - 30)], fill=crop_color, width=2)
-        draw.line([(width - 30, height - 30), (width - 30, height - 70)], fill=crop_color, width=2)
-
-        # Header: Logo Card
+        # Header: Logo Card (Clean White Box)
         if LOGO_PATH.exists():
             logo_raw = Image.open(LOGO_PATH).convert("RGBA")
             scale = 48.0 / logo_raw.height
@@ -629,15 +615,15 @@ class ImageGenerator:
             draw.rounded_rectangle([(80, 65), (80 + card_w, 131)], radius=14, fill="#FFFFFF")
             img.paste(logo_resized, (98, 74), logo_resized)
 
-        # Category Badge
-        badge_text = f"• {context['category']}"
-        draw.rounded_rectangle([(width - 360, 68), (width - 80, 122)], radius=25, fill="#240D15", outline="#C00A27", width=2)
-        draw.text((width - 335, 82), badge_text, fill="#FF4D6D", font=get_font(18, bold=True))
-        draw.text((width - 310, 132), "TEGAL - CREATIVE PRINT LAB", fill="#94A3B8", font=get_font(12, bold=True))
+        # Top Badge: Gold Crown & Quality Tag
+        draw.rounded_rectangle([(width - 410, 68), (width - 80, 122)], radius=25, fill="#3E1004", outline="#FFD54F", width=2)
+        draw.text((width - 385, 82), "👑 OFFSET & DIGITAL #1", fill="#FFD54F", font=get_font(18, bold=True))
 
-        # Middle Section
-        draw.text((80, 250), f"PRINTING PRO-SERIES // VOL. {context['series_number']}", fill="#FFB800", font=get_font(18, bold=True))
+        # Edition / Category Tag
+        cat_tag = f"{context.get('category', 'EDUKASI TEKNIS').upper()} // PHONO PRINT"
+        draw.text((80, 220), cat_tag, fill="#FFF9C4", font=get_font(16, bold=True))
 
+        # Headline Wrapping
         headline_text = context["visual_headline"]
         words = headline_text.split()
         lines, cur_line = [], []
@@ -649,18 +635,46 @@ class ImageGenerator:
         if cur_line:
             lines.append(" ".join(cur_line))
 
-        y_offset = 310
-        font_headline = get_font(58, bold=True)
+        y_offset = 270
+        font_headline = get_font(56, bold=True)
         for i, line in enumerate(lines[:3]):
-            color = "#FFB800" if i == len(lines[:3]) - 1 else "#FFFFFF"
+            color = "#FFEB3B" if i == len(lines[:3]) - 1 else "#FFFFFF"
             draw.text((80, y_offset), line, fill=color, font=font_headline)
-            y_offset += 80
+            y_offset += 75
 
-        # Subtext Card
-        y_card = y_offset + 40
-        card_height = 180 if height > 1100 else 160
-        draw.rounded_rectangle([(80, y_card), (width - 80, y_card + card_height)], radius=16, fill="#131B2A", outline="#1E293B", width=2)
-        draw.rounded_rectangle([(80, y_card), (92, y_card + card_height)], radius=4, fill="#C00A27")
+        # Center Stage: Technical Feature Box (4:5 extra depth)
+        if height >= 1350:
+            y_stage = max(y_offset + 30, 520)
+            stage_h = 320
+            draw.rounded_rectangle([(80, y_stage), (width - 80, y_stage + stage_h)], radius=20, fill="#2A0B03", outline="#D97706", width=2)
+
+            checklist_items = [
+                ("✓ Color Mode: CMYK", "Presisi warna cetak anti kusam"),
+                ("✓ Resolusi 300 DPI", "Hasil cetak tajam & anti pecah"),
+                ("✓ Finishing Mewah", "Doff, Glossy, Spot UV & Foil"),
+                ("✓ Kualitas Terjamin", "Mesin offset & digital modern")
+            ]
+
+            grid_col_w = (width - 160 - 40) // 2
+            for idx, (title, desc) in enumerate(checklist_items):
+                col = idx % 2
+                row = idx // 2
+                gx = 105 + col * (grid_col_w + 30)
+                gy = y_stage + 35 + row * 125
+
+                draw.rounded_rectangle([(gx, gy), (gx + grid_col_w, gy + 95)], radius=14, fill="#3A0F05", outline="#D97706", width=1)
+                draw.text((gx + 20, gy + 20), title, fill="#FFEB3B", font=get_font(20, bold=True))
+                draw.text((gx + 20, gy + 52), desc, fill="#FFFDE7", font=get_font(15))
+
+            # Subtext Card (Positioned below Stage)
+            y_sub = y_stage + stage_h + 30
+            card_height = 140
+        else:
+            y_sub = y_offset + 35
+            card_height = 160
+
+        draw.rounded_rectangle([(80, y_sub), (width - 80, y_sub + card_height)], radius=14, fill="#3E1004", outline="#FFB800", width=1)
+        draw.rounded_rectangle([(80, y_sub), (92, y_sub + card_height)], radius=4, fill="#FFEB3B")
 
         sub_words = context["visual_subtext"].split()
         sub_lines, cur_sub = [], []
@@ -672,41 +686,20 @@ class ImageGenerator:
         if cur_sub:
             sub_lines.append(" ".join(cur_sub))
 
-        sub_y = y_card + 35
-        for sline in sub_lines[:3]:
-            draw.text((120, sub_y), sline, fill="#CBD5E1", font=get_font(28))
-            sub_y += 44
-
-        # 4:5 Checklist
-        if height >= 1350:
-            y_checks = y_card + card_height + 40
-            checklist_items = [
-                ("✓ Color Mode: CMYK", "Cegah warna kusam saat dicetak"),
-                ("✓ Resolusi 300 DPI", "Hasil cetak tajam & tidak pecah"),
-                ("✓ Bleed Area 3mm", "Aman dari pisau potong mesin"),
-                ("✓ Format PDF/X-1a", "Standar industri percetakan modern")
-            ]
-
-            grid_col_w = (width - 160 - 20) // 2
-            for idx, (title, desc) in enumerate(checklist_items):
-                col = idx % 2
-                row = idx // 2
-                gx = 80 + col * (grid_col_w + 20)
-                gy = y_checks + row * 95
-
-                draw.rounded_rectangle([(gx, gy), (gx + grid_col_w, gy + 80)], radius=14, fill="#141923", outline="#222B3B", width=1)
-                draw.text((gx + 20, gy + 16), title, fill="#FFFFFF", font=get_font(18, bold=True))
-                draw.text((gx + 20, gy + 44), desc, fill="#94A3B8", font=get_font(14))
+        sub_y = y_sub + 28
+        for sline in sub_lines[:2]:
+            draw.text((120, sub_y), sline, fill="#FFFDE7", font=get_font(24))
+            sub_y += 38
 
         # Footer
         y_footer = height - 120
-        draw.line([(80, y_footer), (width - 80, y_footer)], fill="#1E293B", width=2)
+        draw.line([(80, y_footer), (width - 80, y_footer)], fill="#D97706", width=2)
+        # WhatsApp Button
+        draw.rounded_rectangle([(80, y_footer + 20), (450, y_footer + 85)], radius=30, fill="#FFFFFF")
+        draw.text((110, y_footer + 36), "💬 PESAN: 085141316787", fill="#C62828", font=get_font(18, bold=True))
 
-        draw.rounded_rectangle([(80, y_footer + 25), (420, y_footer + 85)], radius=30, fill="#C00A27")
-        draw.text((115, y_footer + 40), "SWIPE UNTUK SOLUSI ➔", fill="#FFFFFF", font=get_font(18, bold=True))
-
-        draw.text((width - 340, y_footer + 30), context["brand_handle"], fill="#FFFFFF", font=get_font(20, bold=True))
-        draw.text((width - 340, y_footer + 58), "OFFSET & DIGITAL TEGAL", fill="#FFB800", font=get_font(14, bold=True))
+        draw.text((width - 340, y_footer + 28), context["brand_handle"], fill="#FFFFFF", font=get_font(20, bold=True))
+        draw.text((width - 340, y_footer + 56), "TEGAL - CREATIVE PRINT LAB", fill="#FFEB3B", font=get_font(14, bold=True))
 
         img.save(str(output_path), "JPEG", quality=95)
         return output_path

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1080, height=1080">
-  <title>Print Education Banner</title>
+  <title>Phono Print - Edukasi & Percetakan 1:1</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -16,7 +16,7 @@
     body {
       width: 1080px;
       height: 1080px;
-      background-color: #0A0D14;
+      background: radial-gradient(circle at 50% 20%, #FFA726 0%, #E65100 45%, #BF360C 75%, #3E1004 100%);
       color: #FFFFFF;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow: hidden;
@@ -24,245 +24,200 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 70px 80px;
-      background-image: 
-        radial-gradient(circle at 15% 20%, rgba(0, 229, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(255, 0, 127, 0.07) 0%, transparent 40%),
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      padding: 60px 70px;
     }
 
-    /* Print Precision Registration & Crop Marks */
-    .crop-mark {
-      position: absolute;
-      width: 28px;
-      height: 28px;
-      border-color: rgba(255, 255, 255, 0.35);
-      pointer-events: none;
-    }
-    .top-left { top: 25px; left: 25px; border-top: 2px solid; border-left: 2px solid; }
-    .top-right { top: 25px; right: 25px; border-top: 2px solid; border-right: 2px solid; }
-    .bottom-left { bottom: 25px; left: 25px; border-bottom: 2px solid; border-left: 2px solid; }
-    .bottom-right { bottom: 25px; right: 25px; border-bottom: 2px solid; border-right: 2px solid; }
-
-    /* Top CMYK Calibration Bar */
-    .cmyk-bar {
+    /* Ambient Gold Shimmer Pattern */
+    .bg-overlay {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 6px;
-      display: flex;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 10% 90%, rgba(255, 215, 0, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 35%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      pointer-events: none;
     }
-    .cmyk-c { flex: 1; background-color: #00E5FF; }
-    .cmyk-m { flex: 1; background-color: #FF007F; }
-    .cmyk-y { flex: 1; background-color: #FFD600; }
-    .cmyk-k { flex: 1; background-color: #262B35; }
 
-    /* Header Section */
+    /* Header */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 10;
     }
-    .brand-box {
+    .logo-container {
+      background: #FFFFFF;
+      padding: 10px 22px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
-    .brand-logo-badge {
-      width: 52px;
-      height: 52px;
-      background: linear-gradient(135deg, #00E5FF 0%, #0077FF 100%);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 900;
-      font-size: 24px;
-      color: #0A0D14;
-      box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
-    }
-    .brand-meta {
-      display: flex;
-      flex-direction: column;
-    }
-    .brand-name {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: #FFFFFF;
-    }
-    .brand-tagline {
-      font-size: 13px;
-      font-weight: 500;
-      color: #8E9BAE;
-      letter-spacing: 0.5px;
+    .logo-img {
+      height: 44px;
+      width: auto;
+      display: block;
     }
 
-    /* Category Badge */
-    .category-badge {
+    .badge-no1 {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 20px;
-      background: rgba(0, 229, 255, 0.12);
-      border: 1px solid rgba(0, 229, 255, 0.4);
+      padding: 8px 18px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 215, 0, 0.6);
       border-radius: 100px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: #00E5FF;
-    }
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #00E5FF;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #00E5FF;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #FFD54F;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
-    /* Content Core */
+    /* Content Area */
     .content-body {
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 18px;
       z-index: 10;
-      margin-top: 10px;
     }
-    .edition-tag {
+    .category-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 14px;
-      color: #64748B;
+      color: #FFF9C4;
       letter-spacing: 2px;
+      font-weight: 800;
       text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+    .category-tag::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: #FFD54F;
+      display: inline-block;
+      border-radius: 2px;
+    }
+
     .headline {
-      font-size: 58px;
+      font-size: 50px;
       font-weight: 900;
       line-height: 1.15;
-      letter-spacing: -1.5px;
+      letter-spacing: -1.2px;
       color: #FFFFFF;
-      text-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+      text-transform: uppercase;
+      text-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
     }
-    .headline span.highlight {
-      background: linear-gradient(90deg, #00E5FF 0%, #38EF7D 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .headline .highlight-yellow {
+      color: #FFEB3B;
+      text-shadow: 0 0 25px rgba(255, 235, 59, 0.6);
+    }
+    .headline .highlight-red {
+      color: #FFEB3B;
+      text-shadow: 0 0 25px rgba(255, 235, 59, 0.6);
     }
 
     /* Subtext Box */
     .subtext-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-left: 5px solid #00E5FF;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-left: 6px solid #FFEB3B;
       border-radius: 14px;
-      padding: 24px 28px;
+      padding: 18px 24px;
       backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
     .subtext {
-      font-size: 24px;
-      font-weight: 500;
-      line-height: 1.45;
-      color: #CBD5E1;
+      font-size: 21px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: #FFFDE7;
     }
 
-    /* Footer Section */
+    /* Footer */
     .footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 215, 0, 0.35);
       z-index: 10;
     }
-    .callout-box {
-      display: flex;
+    .cta-button {
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-size: 16px;
-      font-weight: 700;
-      color: #00E5FF;
-      letter-spacing: 1px;
+      gap: 10px;
+      background: #FFFFFF;
+      color: #C62828;
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
       text-transform: uppercase;
+      border: 2px solid #FFEB3B;
     }
-    .callout-arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      background: rgba(0, 229, 255, 0.15);
-      border-radius: 50%;
-      font-size: 18px;
+    .cta-button .arrow {
+      color: #E65100;
+      font-size: 16px;
     }
+
     .footer-right {
       display: flex;
-      align-items: center;
-      gap: 20px;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
     }
     .handle {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
-      font-weight: 700;
-      color: #94A3B8;
+      font-size: 18px;
+      font-weight: 800;
+      color: #FFFFFF;
     }
-    .dpi-badge {
+    .tagline {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
-      padding: 4px 10px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      color: #64748B;
+      color: #FFEB3B;
+      font-weight: 700;
       letter-spacing: 1px;
     }
   </style>
 </head>
 <body>
-  <!-- Print Crop Marks -->
-  <div class="crop-mark top-left"></div>
-  <div class="crop-mark top-right"></div>
-  <div class="crop-mark bottom-left"></div>
-  <div class="crop-mark bottom-right"></div>
-
-  <!-- CMYK Calibration Accent Bar -->
-  <div class="cmyk-bar">
-    <div class="cmyk-c"></div>
-    <div class="cmyk-m"></div>
-    <div class="cmyk-y"></div>
-    <div class="cmyk-k"></div>
-  </div>
+  <div class="bg-overlay"></div>
 
   <!-- Header -->
   <div class="header">
-    <div class="brand-box">
-      <div class="brand-logo-badge">PF</div>
-      <div class="brand-meta">
-        <span class="brand-name">{{ brand_name }}</span>
-        <span class="brand-tagline">{{ brand_tagline }}</span>
-      </div>
+    <div class="logo-container">
+      <img class="logo-img" src="data:image/png;base64,{{ logo_base64 }}" alt="Phono Print Logo">
     </div>
-    <div class="category-badge">
-      <span class="badge-dot"></span>
-      <span>{{ category }}</span>
+    <div class="badge-no1">
+      <span>👑</span>
+      <span>OFFSET & DIGITAL PRINT #1</span>
     </div>
   </div>
 
-  <!-- Body Content -->
+  <!-- Content Body -->
   <div class="content-body">
-    <div class="edition-tag">PRO PRINT INSIGHTS // VOL. {{ series_number }}</div>
+    <div class="category-tag">{{ category }} // VOL. {{ series_number }}</div>
+
     <div class="headline">
-      {{ visual_headline }}
+      {{ visual_headline_html|safe }}
     </div>
+
+    <!-- Subtext Box -->
     <div class="subtext-card">
       <p class="subtext">{{ visual_subtext }}</p>
     </div>
@@ -270,13 +225,13 @@
 
   <!-- Footer -->
   <div class="footer">
-    <div class="callout-box">
-      <span>Swipe Untuk Pelajari Detail</span>
-      <div class="callout-arrow">➔</div>
+    <div class="cta-button">
+      <span>Konsultasi Cetak Gratis</span>
+      <span class="arrow">➔</span>
     </div>
     <div class="footer-right">
       <div class="handle">{{ brand_handle }}</div>
-      <div class="dpi-badge">300 DPI READY</div>
+      <div class="tagline">TEGAL - CREATIVE PRINT LAB</div>
     </div>
   </div>
 </body>
